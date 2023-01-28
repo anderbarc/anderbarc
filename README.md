@@ -14,8 +14,6 @@
 
 ## **🚀 Languages and tools:**
 <div align="center" dir="auto" style="display: inline_block;">
- <br>
-<p align="left">
     <a href="https://developer.android.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/android/android-original-wordmark.svg" alt="android" width="30" height="30" /> </a>
     <a href="https://cordova.apache.org/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/apache_cordova/apache_cordova-icon.svg" alt="apachecordova" width="30" height="30" /> </a>
     <a href="https://getbootstrap.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="30" height="30" /> </a>
@@ -39,9 +37,6 @@
     <a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="typescript" width="30" height="30" /> </a>
     <a href="https://unity.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/unity3d/unity3d-icon.svg" alt="unity" width="30" height="30" /> </a>
     <a href="https://vuejs.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original-wordmark.svg" alt="vuejs" width="30" height="30" /> </a>
-</p>
-
- 
 </div>
 
 ## **🌠 You can find me on:**
@@ -65,5 +60,7 @@
 </div>
 
 <div>
+   
 ![snake gif](https://github.com/antoniobigas/antoniobigas/blob/output/github-contribution-grid-snake.svg) 
+   
 </div>
