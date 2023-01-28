@@ -2,7 +2,7 @@
 👋 Hi! I'm Anderson Barcyscyn, a brazilian developer.
 </p>
 
-## **🐉 About me:**
+## **🪧 About me:**
 * 🧑 Anderson Barcyscyn, 27 years
 * 🌐 Curitiba
 * 🖥️ Full Stack Developer
@@ -10,15 +10,15 @@
 
 ##
 
-## **🚀 Languages and Tools::**
+## **🚀 Languages and tools::**
 <div align="center" dir="auto" style="display: inline_block"> <br>
-<img alt="Cordova" src="https://www.vectorlogo.zone/logos/apache_cordova/apache_cordova-icon.svg"/>
-<img alt="Java" height="60" width="70"  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg" />
-<img alt="js" height="40" width="35"src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" />
-<img alt="Python" height="60" width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original-wordmark.svg" />
-<img alt="linux" height="60" width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" />
-<img alt="Bigas-html" height="60" width="50"src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" />
-<img alt="Bigas-css" height="60" width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" />
+<img alt="Cordova" height="40" width="35" src="https://www.vectorlogo.zone/logos/apache_cordova/apache_cordova-icon.svg"/>
+<img alt="Java" height="40" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg" />
+<img alt="js" height="40" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" />
+<img alt="Python" height="40" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original-wordmark.svg" />
+<img alt="linux" height="40" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" />
+<img alt="Bigas-html" height="40" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" />
+<img alt="Bigas-css" height="40" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" />
 
 </div>
 
@@ -35,7 +35,7 @@
 
 ##
 
-## **⚙️ Github Analytics** 
+## **⚙️ Github analytics** 
 
 <p>
  <img align="left" src="https://github-readme-stats.vercel.app/api/top-langs?username=anderbarc&show_icons=true&locale=en&layout=compact&theme=dark" alt="anderbarc"/>
