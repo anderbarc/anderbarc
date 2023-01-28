@@ -3,10 +3,10 @@
 </p>
 
 ## **🐉 About me:**
-* Anderson Barcyscyn, 27 years
-* 
-* Full Stack Developer
-* Currently learning Automatized tests and Nodejs
+🧑 Anderson Barcyscyn, 27 years
+🌐 Curitiba
+🖥️ Full Stack Developer
+🧠 Currently learning Automatized tests and Nodejs
 
 ##
 
