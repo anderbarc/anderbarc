@@ -13,7 +13,7 @@
 ##
 
 ## **🚀 Languages and tools:**
-<div align="center" dir="auto" style="display: inline_block;">
+<div align="left" dir="auto" style="display: inline_block;">
     <a href="https://developer.android.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/android/android-original-wordmark.svg" alt="android" width="30" height="30" /> </a>
     <a href="https://cordova.apache.org/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/apache_cordova/apache_cordova-icon.svg" alt="apachecordova" width="30" height="30" /> </a>
     <a href="https://getbootstrap.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="30" height="30" /> </a>
@@ -52,7 +52,7 @@
 
 ## **⚙️ Github analytics:**
 
-<div align="center" dir="auto" style="display: inline_block;">
+<div align="left" dir="auto" style="display: inline_block;">
  
  <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=anderbarc&show_icons=true&locale=en&layout=compact&theme=dark" alt="anderbarc"/>
  <img align="center" src="https://github-readme-stats.vercel.app/api?username=anderbarc&show_icons=true&theme=dark&include_all_commits=true&layout=compact&count_private=true" alt="anderbarc"/>
