@@ -11,7 +11,7 @@
 ##
 
 ## **🚀 Languages and tools:**
-<div align="center" dir="auto" style="display: inline_block">
+<div align="center" dir="auto" style="display: inline_block; color: white;">
  <br>
  
  <a href="https://cordova.apache.org/" target="_blank" rel="noreferrer">
