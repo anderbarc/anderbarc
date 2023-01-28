@@ -64,7 +64,7 @@
 </p>
 <p>
  &nbsp;
- <img align="center" src="https://github-readme-stats.vercel.app/api?username=anderbarc&show_icons=true&theme=dark&include_all_commits=true&layout=compact&count_private=true" alt="anderbarc"/>
+ <img align="right" src="https://github-readme-stats.vercel.app/api?username=anderbarc&show_icons=true&theme=dark&include_all_commits=true&layout=compact&count_private=true" alt="anderbarc"/>
  </p>
 
 ##   
