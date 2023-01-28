@@ -5,7 +5,6 @@
 ## **🪧 About me:**
 * 🤓 Anderson Barcyscyn, 27 years
 * 👶🏼 Father of two
-* 💍 Engaged
 * 🌐 Curitiba, Brazil
 * 🖥️ Full Stack Developer
 * 🧠 Currently learning Automatized tests and Nodejs
