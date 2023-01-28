@@ -13,7 +13,7 @@
 ##
 
 ## **🚀 Languages and tools:**
-<div align="center" dir="auto" style="display: inline_block; color: white;">
+<div align="center" dir="auto" style="display: inline_block;">
  <br>
 <p align="left">
     <a href="https://developer.android.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/android/android-original-wordmark.svg" alt="android" width="30" height="30" /> </a>
@@ -58,14 +58,10 @@
 ##
 
 ## **⚙️ Github analytics:**
-
-<p>
- <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=anderbarc&show_icons=true&locale=en&layout=compact&theme=dark" alt="anderbarc"/>
-</p>
-<p>
+<div align="center" dir="auto" style="display: inline_block;">
+<img align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=anderbarc&show_icons=true&locale=en&layout=compact&theme=dark" alt="anderbarc"/>
  <img align="center" src="https://github-readme-stats.vercel.app/api?username=anderbarc&show_icons=true&theme=dark&include_all_commits=true&layout=compact&count_private=true" alt="anderbarc"/>
- </p>
-
+</div>
 ##   
   
 <div>
