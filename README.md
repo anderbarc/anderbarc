@@ -15,7 +15,7 @@
  <br>
  
  <a href="https://cordova.apache.org/" target="_blank" rel="noreferrer">
-  <img alt="Cordova" height="40" width="35" src="https://cdn.jsdelivr.net/npm/simple-icons@3.13.0/icons/apachecordova.svg" enable-background="new 0 0 512 512"/>
+  <svg alt="Cordova" height="40" width="35" src="https://cdn.jsdelivr.net/npm/simple-icons@3.13.0/icons/apachecordova.svg" enable-background="new 0 0 512 512"/>
  </a>
  
  <a href="https://git-scm.com/" target="_blank" rel="noreferrer">
