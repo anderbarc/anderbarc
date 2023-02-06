@@ -53,7 +53,7 @@
 
 <div align="left" dir="auto" style="display: inline_block;">
  
- <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=anderbarc&show_icons=true&locale=en&theme=dark" alt="anderbarc"/>
+![Anderson's GitHub stats](https://github-readme-stats.vercel.app/api?username=anderbarc&show_icons=true&theme=dracula&count_private=true&include_all_commits=true)
  <img align="center" src="https://github-readme-stats.vercel.app/api?username=anderbarc&show_icons=true&theme=dark&include_all_commits=true&layout=compact&count_private=true" alt="anderbarc"/>
  
 </div>
