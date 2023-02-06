@@ -54,6 +54,6 @@
 <div align="left" dir="auto" style="display: inline_block;">
  
  <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=anderbarc&show_icons=true&locale=en&theme=dark" alt="anderbarc"/>
- <img align="center" src="https://github-readme-stats.vercel.app/api?username=anderbarc&show_icons=true&theme=dark&include_all_commits=true&layout=compact&count_private=true" alt="anderbarc"/>alt="anderbarc"/>
+ <img align="center" src="https://github-readme-stats.vercel.app/api?username=anderbarc&show_icons=true&theme=dark&include_all_commits=true&layout=compact&count_private=true" alt="anderbarc"/>
  
 </div>
