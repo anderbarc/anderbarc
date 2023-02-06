@@ -54,6 +54,6 @@
 <div align="left" dir="auto" style="display: inline_block;">
  
 ![Anderson's GitHub stats](https://github-readme-stats.vercel.app/api?username=anderbarc&show_icons=true&theme=dracula&count_private=true&include_all_commits=true)
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=anderbarc&layout=compact&show_icons=true&theme=dracula&count_private=true&include_all_commits=true)]
+![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=anderbarc&layout=compact&show_icons=true&theme=dracula&count_private=true&include_all_commits=true)
  
 </div>
