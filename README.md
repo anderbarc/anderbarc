@@ -3,11 +3,9 @@
 </p>
 
 ## **🪧 About me:**
-* 🤓 Anderson Barcyscyn, 28 years
-* 👶🏼 Father of two
+* 🤓 Anderson Barcyscyn
 * 🌐 Curitiba, Brazil
 * 🖥️ Full Stack Developer
-* 🧠 Currently learning Automatized tests and Nodejs
 
 ##
 
