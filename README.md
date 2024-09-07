@@ -3,7 +3,6 @@
 </p>
 
 ## **🪧 About me:**
-* 🤓 Anderson Barcyscyn
 * 🌐 Curitiba, Brazil
 * 🖥️ Full Stack Developer
 
