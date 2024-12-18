@@ -2,10 +2,6 @@
 🤙 Hi! I'm Anderson Barcyscyn, a brazilian developer.
 </p>
 
-## **🪧 About me:**
-* 🌐 Curitiba, Brazil
-* 🖥️ Full Stack Developer
-
 ##
 
 ## **🚀 Languages and tools:**
