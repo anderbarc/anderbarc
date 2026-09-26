@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulado de Ciências 3º ano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#f3f5f4; --surface:#ffffff; --sunk:#e8ecea; --ink:#1d2622; --muted:#5a6660; --line:#d3dad6;
+  --primary:#2f7d4a; --primary-ink:#ffffff; --primary-soft:#e1f1e6;
+  --sun:#f2b705; --sun-soft:#fdf1c8;
+  --easy:#2f8f46; --easy-soft:#dcf2e1; --mid:#b86e00; --mid-soft:#fbe9cc; --hard:#c2372f; --hard-soft:#f9dcd9;
+  --ok:#2f8f46; --bad:#c2372f;
+  --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:Arial,"Helvetica Neue",Helvetica,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:860px;margin:0 auto;display:grid;gap:18px}
+.stack{display:grid;gap:14px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance}
+
+/* cabeçalho no formato de avaliação */
+.cover{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:14px;border-top:6px solid var(--primary)}
+.cover h1{font-size:30px;font-weight:800;text-align:center}
+.cover .sub{text-align:center;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:13px;color:var(--muted)}
+.sheet{display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--ink);border-radius:4px;overflow:hidden}
+.sheet label,.sheet div{border:1px solid var(--line);margin:-1px 0 0 -1px;padding:6px 8px;display:grid;gap:2px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.sheet input{font:inherit;font-size:16px;text-transform:none;letter-spacing:0;font-weight:400;color:var(--ink);border:none;background:transparent;padding:2px 0;width:100%}
+.sheet span{font-size:16px;text-transform:none;letter-spacing:0;font-weight:400;color:var(--ink)}
+.sheet .nota span{font-family:var(--display);font-weight:800;font-size:20px;color:var(--primary)}
+.c2{grid-column:span 2}.c3{grid-column:span 3}.c4{grid-column:span 4}.c6{grid-column:span 6}
+@media (max-width:560px){.sheet{grid-template-columns:repeat(2,1fr)}.c2,.c3,.c4{grid-column:span 1}.c6,.wide{grid-column:span 2}}
+.legend{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
+
+.tabs{display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px}
+.tabs button,.tool{font:inherit;font-size:15px;font-weight:700;border-radius:999px;padding:8px 16px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.tabs .spacer{flex:1}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+.section-title{display:flex;align-items:center;gap:10px;padding-top:10px}
+.section-title h2{font-size:24px}
+.section-title .num{font-family:var(--display);font-weight:800;background:var(--sun);color:#1d2622;border-radius:8px;padding:0 10px;font-size:20px}
+
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px;break-inside:avoid}
+.q.right{border-color:var(--ok);box-shadow:inset 4px 0 0 var(--ok)}
+.q.wrong{border-color:var(--bad);box-shadow:inset 4px 0 0 var(--bad)}
+.qhead{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.qn{font-weight:700;font-size:16px;letter-spacing:.06em;color:var(--muted);margin-right:auto;font-variant-numeric:tabular-nums}
+.chip{font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;letter-spacing:.02em}
+.chip.f{background:var(--easy-soft);color:var(--easy)}
+.chip.m{background:var(--mid-soft);color:var(--mid)}
+.chip.d{background:var(--hard-soft);color:var(--hard)}
+.chip.t{background:var(--sunk);color:var(--muted)}
+.intro{margin:0}
+.texto{margin:0;padding:4px 0 4px 16px;border-left:3px solid var(--sun);text-indent:1.5em}
+.texto p{margin:0 0 6px}
+.fonte{margin:0;text-align:right;font-size:13px;color:var(--muted)}
+figure{margin:0;display:grid;gap:6px;justify-items:center}
+figure img{display:block;max-width:100%;width:520px;height:auto;border-radius:4px;border:1px solid var(--line)}
+figcaption{font-size:14px;color:var(--muted);max-width:520px;text-align:left;width:100%}
+.stem{margin:0}
+.stem .val{font-size:13px;color:var(--muted);white-space:nowrap}
+.opts{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--line);border-radius:10px;cursor:pointer;background:var(--surface)}
+.opt:hover{border-color:var(--primary)}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.letter{flex:none;width:30px;height:28px;border-radius:14px;border:2px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:15px}
+.opt:has(input:checked){border-color:var(--primary);background:var(--primary-soft)}
+.opt:has(input:checked) .letter{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.opt:has(input:focus-visible){outline:3px solid var(--sun)}
+.opt.is-correct{border-color:var(--ok);background:var(--easy-soft)}
+.opt.is-correct .letter{border-color:var(--ok);color:var(--ok)}
+.opt.is-wrong{border-color:var(--bad);background:var(--hard-soft)}
+.done .opt{cursor:default}
+textarea{font:inherit;width:100%;min-height:96px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);resize:vertical;
+  background-image:repeating-linear-gradient(transparent 0 30px,var(--line) 30px 31px);background-attachment:local;line-height:31px}
+.expected{border-left:4px solid var(--primary);background:var(--primary-soft);border-radius:0 8px 8px 0;padding:8px 12px;font-size:15px}
+.expected b{color:var(--primary)}
+.grade{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px;color:var(--muted)}
+.grade button{font:inherit;font-size:14px;font-weight:700;border-radius:999px;padding:4px 12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.grade button[aria-pressed="true"][data-v="1"]{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.grade button[aria-pressed="true"][data-v="0.5"]{background:var(--mid);border-color:var(--mid);color:var(--surface)}
+.grade button[aria-pressed="true"][data-v="0"]{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.feedback{font-size:14px;font-weight:700}
+.feedback.ok{color:var(--ok)} .feedback.bad{color:var(--bad)}
+.finish{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.primary{background:var(--primary)!important;border-color:var(--primary)!important;color:var(--primary-ink)!important}
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.score div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.score b{display:block;font-family:var(--display);font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.score span{font-size:13px;color:var(--muted)}
+.key{overflow-x:auto}
+.key table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;background:var(--surface)}
+.key th,.key td{border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:15px;vertical-align:top}
+.key th{background:var(--sunk);font-size:13px}
+.key .ans{font-family:var(--display);font-weight:800;font-size:18px;color:var(--primary);text-align:center;width:48px}
+.dist{display:flex;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.dist span{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:2px 10px}
+.note{font-size:14px;color:var(--muted);margin:0}
+.qn{color:var(--ink);text-decoration:underline;text-underline-offset:3px;letter-spacing:.03em}
+figure.svg svg{max-width:100%;height:auto}
+.q{border-radius:6px}
+@media print{
+  body{background:#fff;color:#000;font-size:12pt;padding:0}
+  .tabs,.finish,.tool,.no-print,.grade{display:none!important}
+  .q,.cover{border:none;box-shadow:none!important;padding:8px 0}
+  .opt{border:none;padding:1px 0}
+  .opt.is-correct,.opt.is-wrong,.opt:has(input:checked){background:none}
+  .letter{border:none;width:auto;height:auto}
+  textarea{border:none;min-height:110px;background-image:repeating-linear-gradient(transparent 0 30px,#777 30px 31px)}
+  figure img{filter:grayscale(1);width:380px}
+  .pagebreak{break-before:page}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="cover">
+    <span class="sub">Ensino Fundamental · 3º bimestre</span>
+    <h1>Simulado de Ciências</h1>
+    <div class="sheet">
+      <label class="c4 wide" for="aluno">Aluno(a)<input id="aluno" type="text" autocomplete="off"></label>
+      <div class="c2">Série<span>3º ano</span></div>
+      <div class="c2">Disciplina<span>Ciências</span></div>
+      <label class="c2" for="prof">Professor(a)<input id="prof" type="text" autocomplete="off"></label>
+      <label class="c2" for="data">Data<input id="data" type="text" autocomplete="off" placeholder="__/__"></label>
+      <div class="c3 nota">Nota<span id="nota">—</span></div>
+      <div class="c3">Valor<span>10,0</span></div>
+      <div class="c6">Conteúdo<span>Para conhecer a Terra; a história da Terra (capítulos 5 e 6).</span></div>
+    </div>
+    <div class="legend">Dificuldade: <span class="chip f">Fácil</span><span class="chip m">Médio</span><span class="chip d">Difícil</span><span id="versao"></span></div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-prova" aria-selected="true">Prova</button>
+    <button role="tab" id="tab-gabarito" aria-selected="false">Gabarito</button>
+    <span class="spacer"></span>
+    <button class="tool" id="shuffle" type="button" title="Sorteia de novo a letra das respostas certas">Nova versão</button>
+    <button class="tool" id="print" type="button" hidden>Imprimir</button>
+    <button class="tool" id="save" type="button" hidden>Baixar arquivo</button>
+  </nav>
+
+  <main id="prova"></main>
+  <section id="gabarito" hidden></section>
+</div>
+
+<script id="app">
+(() => {
+const IMG = {};
+const T = { forma: "Forma da Terra", grav: "Gravidade", rep: "Representar a Terra", vida: "Vida na Terra", hist: "História da Terra", camadas: "Camadas e placas", fos: "Fósseis", astros: "Astros" };
+const D = { f: "Fácil", m: "Médio", d: "Difícil" };
+const LIVRO = "Livro de Ciências, 3º ano, volume 3 (adaptado).";
+
+/* Desenhos simples, em preto e branco, como nas provas impressas */
+const S = (w, h, body) => `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif" font-size="13" fill="none" stroke="#1d1d1d" stroke-width="2">${body}</svg>`;
+const SVG = {
+camadas: S(260,190,`<circle cx="120" cy="95" r="85" fill="#fff"/><path d="M120 95 L205 95 A85 85 0 0 0 120 10 Z" fill="#fff"/>
+ <circle cx="120" cy="95" r="85" fill="none"/><circle cx="120" cy="95" r="76" fill="#d9d9d9" stroke-width="1.5"/><circle cx="120" cy="95" r="34" fill="#8c8c8c" stroke-width="1.5"/>
+ <path d="M120 95 L205 95 A85 85 0 0 0 120 10 Z" fill="#fff" stroke="none"/><path d="M120 10 V95 H205" />
+ <line x1="160" y1="30" x2="228" y2="30" stroke-width="1"/><text x="232" y="34" fill="#1d1d1d" stroke="none">1</text>
+ <line x1="80" y1="55" x2="228" y2="62" stroke-width="1"/><text x="232" y="66" fill="#1d1d1d" stroke="none">2</text>
+ <line x1="120" y1="110" x2="228" y2="120" stroke-width="1"/><text x="232" y="124" fill="#1d1d1d" stroke="none">3</text>`),
+gravidade: S(330,150,`<text x="55" y="16" fill="#1d1d1d" stroke="none">Figura A</text><circle cx="80" cy="85" r="50" fill="#fff"/>
+ <g stroke-width="2"><line x1="80" y1="35" x2="80" y2="72"/><path d="M74 64 L80 74 L86 64"/><line x1="80" y1="135" x2="80" y2="98"/><path d="M74 106 L80 96 L86 106"/>
+ <line x1="30" y1="85" x2="67" y2="85"/><path d="M59 79 L69 85 L59 91"/><line x1="130" y1="85" x2="93" y2="85"/><path d="M101 79 L91 85 L101 91"/></g>
+ <text x="215" y="16" fill="#1d1d1d" stroke="none">Figura B</text><circle cx="240" cy="85" r="50" fill="#fff"/>
+ <g><line x1="215" y1="25" x2="215" y2="140"/><path d="M209 130 L215 142 L221 130"/><line x1="240" y1="25" x2="240" y2="140"/><path d="M234 130 L240 142 L246 130"/><line x1="265" y1="25" x2="265" y2="140"/><path d="M259 130 L265 142 L271 130"/></g>`),
+barco: S(340,150,`<path d="M0 120 Q170 70 340 120" /><text x="210" y="140" fill="#1d1d1d" stroke="none" font-size="11">curvatura da Terra</text>
+ <circle cx="22" cy="92" r="6" fill="#fff"/><line x1="22" y1="98" x2="22" y2="116"/><line x1="26" y1="100" x2="44" y2="94" stroke-width="3"/>
+ <g><path d="M248 84 L248 40 L278 80 Z" fill="#fff"/><line x1="248" y1="40" x2="248" y2="96"/></g>
+ <line x1="44" y1="94" x2="250" y2="60" stroke-dasharray="4 4" stroke-width="1"/>`),
+sol: S(340,160,`<line x1="10" y1="130" x2="330" y2="130"/><path d="M40 130 Q170 -20 300 130" stroke-dasharray="5 5" stroke-width="1.5"/>
+ <circle cx="55" cy="108" r="12" fill="#fff"/><circle cx="170" cy="36" r="12" fill="#fff"/><circle cx="285" cy="108" r="12" fill="#fff"/>
+ <text x="36" y="84" fill="#1d1d1d" stroke="none" font-size="12">manhã</text><text x="146" y="16" fill="#1d1d1d" stroke="none" font-size="12">meio-dia</text><text x="250" y="84" fill="#1d1d1d" stroke="none" font-size="12">fim da tarde</text>
+ <text x="12" y="150" fill="#1d1d1d" stroke="none">Leste</text><text x="286" y="150" fill="#1d1d1d" stroke="none">Oeste</text>`),
+planta: S(300,130,`<rect x="110" y="40" width="80" height="50" rx="6" fill="#fff"/><path d="M190 40 L210 30 L210 100 L190 90" fill="#fff"/>
+ <path d="M110 55 Q80 40 70 10 M95 48 Q70 40 60 30" /><ellipse cx="68" cy="14" rx="10" ry="6" fill="#bdbdbd" stroke-width="1.5"/><ellipse cx="58" cy="30" rx="9" ry="5" fill="#bdbdbd" stroke-width="1.5"/>
+ <path d="M110 80 Q90 95 88 122 M100 85 Q80 100 70 118" stroke-width="1.5"/><line x1="10" y1="124" x2="290" y2="124"/>
+ <text x="230" y="120" fill="#1d1d1d" stroke="none" font-size="12">solo</text>`),
+pessoas: S(260,230,`<circle cx="130" cy="115" r="70" fill="#fff"/><text x="112" y="120" fill="#1d1d1d" stroke="none">Terra</text>
+ <g stroke-width="1.8"><circle cx="130" cy="22" r="6" fill="#fff"/><line x1="130" y1="28" x2="130" y2="45"/>
+ <circle cx="130" cy="208" r="6" fill="#fff"/><line x1="130" y1="202" x2="130" y2="185"/>
+ <circle cx="37" cy="115" r="6" fill="#fff"/><line x1="43" y1="115" x2="60" y2="115"/>
+ <circle cx="223" cy="115" r="6" fill="#fff"/><line x1="217" y1="115" x2="200" y2="115"/></g>
+ <g fill="#8c8c8c" stroke-width="1"><circle cx="150" cy="30" r="4"/><circle cx="150" cy="200" r="4"/><circle cx="45" cy="95" r="4"/><circle cx="215" cy="135" r="4"/></g>`),
+lua: S(260,110,`<rect x="0" y="0" width="260" height="110" fill="#1d1d1d" stroke="none"/><circle cx="130" cy="55" r="36" fill="#f2f2f2" stroke="none"/>
+ <circle cx="118" cy="45" r="6" fill="#cfcfcf" stroke="none"/><circle cx="142" cy="66" r="8" fill="#cfcfcf" stroke="none"/><circle cx="140" cy="38" r="4" fill="#cfcfcf" stroke="none"/>`)
+};
+
+const MC = [
+// ===== Forma da Terra =====
+{t:"forma",d:"f",intro:"Leia o trecho.",texto:["Até o ano de 1961 ninguém tinha visto a Terra do espaço. Mesmo assim, há mais de 2 mil anos, algumas pessoas já sabiam que o planeta era redondo."],fonte:LIVRO,
+ q:"A primeira pessoa a ver a Terra do espaço, em 1961, foi o astronauta",
+ c:"Yuri Gagarin.",
+ w:["Isaac Newton.","Júlio Verne.","Cristóvão Colombo."]},
+{t:"forma",d:"m",intro:"Observe a imagem de uma pessoa usando uma luneta na praia enquanto um barco se aproxima.",svg:"barco",
+ q:"A pessoa vê as velas do barco surgirem no horizonte antes do casco. Isso indica que",
+ c:"a Terra é redonda.",
+ w:["a Terra é plana.","o barco está afundando.","o mar está muito agitado."]},
+{t:"forma",d:"d",q:"Nas imagens do espaço, a Terra parece uma esfera perfeita. Mas, na verdade, ela é",
+ c:"um pouco achatada nos polos e tem a superfície irregular.",
+ w:["totalmente lisa, sem montanhas nem vales.","quadrada, com quatro lados iguais.","plana como uma folha de papel."]},
+{t:"forma",d:"f",intro:"Leia a frase dita pelo astronauta Yuri Gagarin.",texto:["“A Terra é azul!”"],fonte:LIVRO,
+ q:"A cor azul da Terra se deve",
+ c:"à atmosfera e à grande quantidade de água na superfície.",
+ w:["às florestas que cobrem todo o planeta.","à luz das estrelas.","ao gelo dos desertos."]},
+{t:"forma",d:"m",q:"Um satélite é",
+ c:"um equipamento colocado em órbita ao redor da Terra, que tira fotografias do planeta.",
+ w:["um tipo de estrela que pisca no céu.","o nome da camada mais quente da Terra.","um mapa plano da superfície da Terra."]},
+{t:"forma",d:"f",q:"Em 2021, aconteceram as primeiras viagens de turismo espacial. Isso significa que",
+ c:"não são só os astronautas que saem da Terra para conhecer o espaço.",
+ w:["qualquer pessoa pode morar na Lua.","as pessoas viajam até o centro da Terra.","os astronautas deixaram de ir ao espaço."]},
+
+// ===== Gravidade =====
+{t:"grav",d:"f",q:"A força que puxa as pessoas e todas as coisas em direção ao centro da Terra chama-se",
+ c:"força da gravidade.",
+ w:["força do vento.","força magnética.","força do Sol."]},
+{t:"grav",d:"m",intro:"Observe as figuras. Os círculos representam a Terra.",svg:"gravidade",
+ q:"A figura que mostra corretamente a direção da força da gravidade é a",
+ c:"Figura A, com as setas apontando para o centro da Terra.",
+ w:["Figura B, com as setas apontando todas para baixo.","Figura A e a Figura B, pois as duas estão certas.","nenhuma delas, pois a gravidade não tem direção."]},
+{t:"grav",d:"m",intro:"Observe a imagem. As bolinhas cinzas são bolas que as pessoas soltaram.",svg:"pessoas",
+ q:"Em qualquer lugar da Terra, a bola que a pessoa solta",
+ c:"cai em direção ao chão.",
+ w:["cai para o espaço.","fica parada no ar.","sobe em direção ao céu."]},
+{t:"grav",d:"f",q:"O cientista que descreveu a força da gravidade foi",
+ c:"Isaac Newton.",
+ w:["Yuri Gagarin.","Júlio Verne.","Barbara Rochlitz."]},
+{t:"grav",d:"d",q:"É a força da gravidade que mantém a Lua e a Estação Espacial Internacional",
+ c:"girando em torno da Terra.",
+ w:["paradas no mesmo lugar do céu.","afastando-se da Terra cada vez mais.","girando em torno do Sol, longe da Terra."]},
+{t:"grav",d:"d",intro:"Leia o trecho.",texto:["Astronautas que passam meses no espaço ficam até 5 cm mais altos. Isso acontece porque, aqui na Terra, a força da gravidade nos puxa constantemente para baixo, o que faz encurtar as articulações da coluna."],fonte:LIVRO,
+ q:"No espaço, os astronautas precisam se exercitar com frequência porque",
+ c:"os músculos ficam mais fracos, já que não são muito usados para caminhar ou levantar objetos.",
+ w:["ficam mais baixos a cada dia.","a gravidade no espaço é mais forte que na Terra.","precisam ficar cansados para dormir."]},
+{t:"grav",d:"m",intro:"Isabela deixou um vaso de planta deitado no chão. Semanas depois, as folhas cresceram em direção à luz e as raízes em direção ao solo.",svg:"planta",
+ q:"A parte da planta que cresceu no mesmo sentido da força da gravidade foi",
+ c:"a raiz.",
+ w:["a folha.","o vaso.","nenhuma parte."]},
+{t:"grav",d:"f",q:"Em qual atividade a força da gravidade está atuando?",
+ c:"Em todas: brincar na gangorra, jogar bola, jogar tênis e andar de bicicleta.",
+ w:["Apenas em brincar na gangorra.","Apenas em andar de bicicleta.","Em nenhuma delas."]},
+
+// ===== Representar a Terra =====
+{t:"rep",d:"f",q:"A representação da Terra que mais se parece com a realidade, pois tem formato esférico, é",
+ c:"o globo terrestre.",
+ w:["o planisfério.","a fotografia de uma cidade.","o desenho de uma casa."]},
+{t:"rep",d:"m",q:"O planisfério é uma boa representação da Terra quando queremos",
+ c:"ver todos os continentes e oceanos de uma só vez.",
+ w:["ver o formato redondo do planeta.","girar e ver um lado de cada vez.","observar o interior da Terra."]},
+{t:"rep",d:"f",q:"O profissional que faz mapas se chama",
+ c:"cartógrafo.",
+ w:["paleontólogo.","astronauta.","astrônomo."]},
+{t:"rep",d:"d",intro:"Leia o trecho.",texto:["Um dos desafios do cartógrafo é representar a superfície da Terra, que tem formato esférico, em algo plano, como uma folha de papel."],fonte:LIVRO,
+ q:"Esse é um desafio porque",
+ c:"é difícil transformar uma superfície redonda em uma figura plana sem deformar nada.",
+ w:["a Terra é plana e o papel é redondo.","o cartógrafo nunca viu um mapa.","a folha de papel é muito pequena para desenhar."]},
+{t:"rep",d:"m",q:"Ao observar um planisfério, podemos concluir que a maior parte da superfície da Terra é coberta por",
+ c:"água.",
+ w:["gelo.","solo.","florestas."]},
+
+// ===== Vida na Terra =====
+{t:"vida",d:"f",q:"A Terra é um dos oito planetas do Sistema Solar e, até o momento,",
+ c:"é o único onde sabemos que existe vida.",
+ w:["é o maior planeta de todos.","é o planeta mais perto do Sol.","é uma estrela com luz própria."]},
+{t:"vida",d:"m",q:"Três condições importantes para a existência da vida na Terra são",
+ c:"gás oxigênio, água líquida e camada de ozônio.",
+ w:["gelo, fumaça e lava.","petróleo, carvão e ferro.","plástico, vidro e papel."]},
+{t:"vida",d:"m",q:"A camada de ozônio é importante porque",
+ c:"protege o planeta de grande parte dos raios ultravioleta do Sol.",
+ w:["produz a chuva.","é usada para a respiração dos seres vivos.","esquenta o núcleo da Terra."]},
+{t:"vida",d:"m",q:"Relacione cada elemento à sua função:<br>1. Gás oxigênio &nbsp; 2. Água &nbsp; 3. Gás ozônio<br>( &nbsp; ) Proteger o planeta dos raios solares.<br>( &nbsp; ) Respiração e obtenção de energia.<br>( &nbsp; ) Transportar substâncias no corpo e controlar a temperatura.<br>A sequência correta, de cima para baixo, é",
+ c:"3, 1, 2.",
+ w:["1, 2, 3.","2, 3, 1.","3, 2, 1."]},
+{t:"vida",d:"f",q:"Seres vivos que fazem parte do solo são",
+ c:"minhocas, formigas, fungos e bactérias.",
+ w:["peixes e camarões.","baleias e golfinhos.","pedras e areia."]},
+{t:"vida",d:"d",intro:"Leia o trecho.",texto:["Será que estamos sozinhos no Universo? Novos planetas não param de ser identificados! Desta vez foram oito, sendo dois deles bem parecidos com a Terra. Eles estão a uma distância ideal de seus sóis para que tenham água em estado líquido, uma condição necessária para a vida."],fonte:"GARCIA, Marcelo. Novos vizinhos. Ciência Hoje das Crianças (adaptado).",
+ q:"De acordo com o texto, a condição necessária para existir vida em um planeta é",
+ c:"ter água em estado líquido.",
+ w:["ter muitas estrelas por perto.","ser muito grande.","ser muito frio."]},
+{t:"vida",d:"m",q:"Para diminuir nossa pegada ecológica, isto é, o impacto que cada pessoa causa ao ambiente, é recomendado",
+ c:"comprar apenas o necessário e evitar desperdícios.",
+ w:["usar muitos copos e pratos descartáveis.","comprar coisas desnecessárias.","tomar banhos bem demorados."]},
+
+// ===== História da Terra =====
+{t:"hist",d:"f",q:"Segundo a ideia mais aceita pelos cientistas, a Terra tem cerca de",
+ c:"4,5 bilhões de anos.",
+ w:["200 mil anos.","2 mil anos.","100 anos."]},
+{t:"hist",d:"m",intro:"Leia o trecho.",texto:["No início, a Terra era tão quente que nenhum organismo conseguiria sobreviver. Na atmosfera, havia muitos gases tóxicos e água no estado gasoso. Além disso, os vulcões eram muito ativos e muita lava era liberada."],fonte:LIVRO,
+ q:"De acordo com o texto, no início da Terra",
+ c:"não era possível existir vida, porque o planeta era muito quente.",
+ w:["já existiam muitos dinossauros.","os mares já estavam cheios de peixes.","o planeta era frio e coberto de gelo."]},
+{t:"hist",d:"m",q:"Os mares e oceanos se formaram quando",
+ c:"a Terra esfriou e a água da atmosfera caiu como chuva durante muitos anos.",
+ w:["os vulcões explodiram.","os seres humanos cavaram buracos enormes.","os dinossauros beberam toda a água."]},
+{t:"hist",d:"f",q:"Os primeiros seres vivos da Terra surgiram",
+ c:"na água e eram muito simples e microscópicos.",
+ w:["nas florestas e eram enormes.","no espaço, vindos de outro planeta.","junto com os seres humanos."]},
+{t:"hist",d:"d",q:"Observe a ordem dos acontecimentos da história da Terra.<br>I. Surgimento dos seres humanos.<br>II. Vulcões muito ativos e planeta muito quente.<br>III. Formação dos mares e oceanos.<br>IV. Dinossauros na superfície da Terra.<br>A ordem correta, do mais antigo para o mais recente, é",
+ c:"II, III, IV, I.",
+ w:["I, II, III, IV.","IV, III, II, I.","II, I, III, IV."]},
+{t:"hist",d:"d",q:"Em filmes, é comum vermos seres humanos junto com dinossauros. Essa representação está",
+ c:"incorreta, porque os dinossauros morreram milhões de anos antes de os seres humanos surgirem.",
+ w:["correta, porque humanos e dinossauros viveram juntos.","correta, porque os dinossauros ainda existem.","incorreta, porque os dinossauros nunca existiram."]},
+
+// ===== Camadas e placas =====
+{t:"camadas",d:"f",intro:"Observe a imagem que representa o interior do planeta Terra.",svg:"camadas",
+ q:"A camada indicada pelo número 1, onde vivem os seres vivos, é",
+ c:"a crosta terrestre.",
+ w:["o manto.","o núcleo.","a atmosfera."]},
+{t:"camadas",d:"m",q:"A camada da Terra de onde vem a lava dos vulcões em erupção é",
+ c:"o manto.",
+ w:["a crosta terrestre.","o núcleo.","a camada de ozônio."]},
+{t:"camadas",d:"m",q:"A camada mais interna e mais quente da Terra, que chega a 5 000 °C, é",
+ c:"o núcleo.",
+ w:["o manto.","a crosta terrestre.","o oceano."]},
+{t:"camadas",d:"d",intro:"No livro Viagem ao centro da Terra, escrito por Júlio Verne, os personagens chegam ao centro do nosso planeta.",
+ q:"Mesmo com a tecnologia de hoje, isso é possível?",
+ c:"Não, pois o centro da Terra é muito quente e o ser humano não sobreviveria ao calor extremo.",
+ w:["Sim, pois existem máquinas que já chegaram ao núcleo.","Sim, pois o centro da Terra é frio.","Não, pois o centro da Terra é feito de água."]},
+{t:"camadas",d:"m",q:"A crosta terrestre é formada por grandes placas que se movem muito lentamente. Elas são chamadas de",
+ c:"placas tectônicas.",
+ w:["placas de gelo.","placas solares.","placas de trânsito."]},
+{t:"camadas",d:"d",q:"Há cerca de 250 milhões de anos, existia um único continente, chamado",
+ c:"Pangeia.",
+ w:["América.","Atlântida.","Amazônia."]},
+{t:"camadas",d:"d",q:"O movimento das placas tectônicas, causado pelo calor do interior da Terra, também provoca",
+ c:"erupção de vulcões, terremotos e formação de montanhas.",
+ w:["as fases da Lua.","a cor azul da Terra.","o nascer do Sol."]},
+
+// ===== Fósseis =====
+{t:"fos",d:"f",q:"Os restos, marcas e vestígios de seres vivos que morreram há muito tempo, preservados em rochas, são chamados de",
+ c:"fósseis.",
+ w:["minerais.","satélites.","planetas."]},
+{t:"fos",d:"f",q:"Os profissionais que trabalham procurando fósseis para estudar a história da Terra são os",
+ c:"paleontólogos.",
+ w:["astrônomos.","cartógrafos.","astronautas."]},
+{t:"fos",d:"m",q:"Quando todos os indivíduos de uma espécie morrem, dizemos que ela",
+ c:"foi extinta.",
+ w:["virou uma estrela.","ficou mais forte.","mudou de continente."]},
+{t:"fos",d:"d",q:"Uma folha que caiu ontem e deixou sua marca no barro <u>não</u> pode ser considerada um fóssil porque",
+ c:"os fósseis são registros de seres vivos que existiram há milhares ou milhões de anos.",
+ w:["folhas nunca viram fósseis.","o barro é muito macio.","só animais podem virar fósseis."]},
+{t:"fos",d:"m",q:"Coprólitos são fósseis de",
+ c:"fezes petrificadas de animais, que mostram do que eles se alimentavam.",
+ w:["ovos de dinossauro.","folhas de árvores.","dentes de tubarão."]},
+
+// ===== Astros =====
+{t:"astros",d:"f",intro:"Observe a imagem do movimento aparente do Sol durante o dia.",svg:"sol",
+ q:"De acordo com a imagem, o Sol surge pela manhã na direção",
+ c:"leste.",
+ w:["oeste.","norte.","sul."]},
+{t:"astros",d:"m",q:"As estrelas e os planetas são diferentes porque",
+ c:"as estrelas têm luz própria e os planetas são iluminados pelo Sol.",
+ w:["os planetas têm luz própria e as estrelas não.","as estrelas estão mais perto da Terra que os planetas.","não existe nenhuma diferença."]},
+{t:"astros",d:"m",q:"A Lua é o satélite natural da Terra. Conseguimos enxergá-la porque ela",
+ c:"reflete a luz do Sol.",
+ w:["tem luz própria, como as estrelas.","é iluminada pelas luzes da cidade.","é feita de fogo."]},
+{t:"astros",d:"f",intro:"Observe a imagem da Lua vista no céu à noite.",svg:"lua",
+ q:"A fase da Lua representada na imagem é a",
+ c:"lua cheia.",
+ w:["lua nova.","lua crescente.","lua minguante."]},
+{t:"astros",d:"d",q:"Em alguns dias, não conseguimos ver a Lua em momento algum. Nesse caso, dizemos que ela está na fase",
+ c:"nova.",
+ w:["cheia.","crescente.","minguante."]},
+{t:"astros",d:"m",q:"Em locais com pouca luz, como no observatório de La Silla, no Chile, é possível ver mais estrelas. Isso acontece porque",
+ c:"as luzes das cidades atrapalham a observação dos astros.",
+ w:["no Chile existem mais estrelas.","as estrelas só aparecem nas montanhas.","a Lua não aparece no Chile."]}
+];
+
+const DS = [
+{t:"forma",d:"m",q:"Como os antigos gregos perceberam que a Terra era redonda, mesmo sem vê-la do espaço?",
+ r:"Observando os barcos que se aproximavam da costa: as velas apareciam antes do casco no horizonte. Se a Terra fosse plana, o barco inteiro apareceria ao mesmo tempo."},
+{t:"forma",d:"d",q:"No espaço, existe “lado de cima” e “lado de baixo”? Explique.",
+ r:"Não. No espaço não existe em cima, embaixo, esquerda ou direita. Essas são referências tomadas em relação à superfície da Terra: o chão é o lado de baixo e o céu é o lado de cima."},
+{t:"grav",d:"f",q:"O que é a força da gravidade?",
+ r:"É a força que puxa as pessoas e todas as coisas em direção ao centro da Terra, impedindo que escapem para o espaço."},
+{t:"grav",d:"m",q:"O que aconteceria com a água dos oceanos e com o ar se não existisse a força da gravidade?",
+ r:"Eles escapariam para o espaço, pois é a gravidade que os mantém presos à Terra."},
+{t:"rep",d:"m",q:"Qual é a diferença entre o globo terrestre e o planisfério?",
+ r:"O globo tem formato esférico e se parece mais com a Terra, mas é preciso girá-lo para ver todos os continentes. O planisfério é plano e mostra todos os continentes e oceanos de uma só vez."},
+{t:"rep",d:"f",q:"Complete com as palavras do quadro: cartógrafos – mapas – espaço.<br>Hoje, podemos observar imagens da Terra diretamente do ________. Há muito tempo, a Terra já era representada por meio de ________, feitos pelos ________.",
+ r:"espaço; mapas; cartógrafos."},
+{t:"vida",d:"m",q:"Cite três ambientes da Terra onde podemos encontrar seres vivos.",
+ r:"Superfície da Terra, interior do solo, mares e rios, atmosfera, polos, desertos, fontes de água quente (três deles)."},
+{t:"vida",d:"f",q:"Qual é a importância do gás oxigênio para os seres vivos?",
+ r:"É usado na respiração e na produção de energia pela maior parte dos seres vivos."},
+{t:"vida",d:"d",q:"Escreva duas atitudes do seu dia a dia que diminuem a sua pegada ecológica.",
+ r:"Comprar só o necessário, evitar descartáveis, não desperdiçar alimentos, tomar banhos rápidos, fechar a torneira ao escovar os dentes, reciclar (duas delas)."},
+{t:"hist",d:"m",q:"Por que a água foi importante para o surgimento dos primeiros seres vivos?",
+ r:"Porque o acúmulo de água formou ambientes ideais para o desenvolvimento dos seres vivos, e a água os protegia dos raios do Sol."},
+{t:"hist",d:"d",q:"Os dinossauros e os seres humanos viveram na mesma época? Explique.",
+ r:"Não. Os dinossauros viveram e morreram há milhões de anos, e os seres humanos surgiram muito depois, há cerca de 200 mil anos."},
+{t:"camadas",d:"f",q:"Escreva o nome das três camadas da Terra, da mais externa para a mais interna.",
+ r:"Crosta terrestre, manto e núcleo."},
+{t:"camadas",d:"m",q:"Como os cientistas sabem o que existe no interior da Terra, se nenhum equipamento chegou até lá?",
+ r:"Pela análise da lava dos vulcões e de amostras de rochas da superfície ou retiradas de grandes profundidades."},
+{t:"camadas",d:"d",q:"Por que os continentes mudaram de posição ao longo do tempo?",
+ r:"Porque a crosta é formada por placas tectônicas que se movem lentamente, impulsionadas pelo calor do interior da Terra, que movimenta o manto."},
+{t:"fos",d:"m",q:"Qual é a importância do estudo dos fósseis?",
+ r:"Os fósseis ajudam a entender a história da Terra e como eram e viviam os seres vivos do passado, como os dinossauros."},
+{t:"fos",d:"d",q:"Por que poucos seres vivos que já morreram viraram fósseis?",
+ r:"Porque a formação de fósseis é um processo difícil e raro; a maioria dos seres vivos foi decomposta ou destruída."},
+{t:"astros",d:"f",q:"Escreva o nome das quatro fases da Lua.",
+ r:"Lua nova, lua crescente, lua cheia e lua minguante."},
+{t:"astros",d:"m",q:"Complete com as palavras do quadro: leste – oeste – meio-dia.<br>O Sol surge pela manhã na direção ________. Ao ________, ele está na posição mais alta no céu. No fim da tarde, ele desaparece na direção ________.",
+ r:"leste; meio-dia; oeste."},
+{t:"astros",d:"m",q:"Por que não devemos olhar diretamente para o Sol?",
+ r:"Porque isso pode causar danos à visão."},
+{t:"astros",d:"d",q:"Quando olhamos o céu à noite, como podemos diferenciar um planeta de uma estrela?",
+ r:"A luz refletida pelos planetas é constante, enquanto a luz das estrelas parece piscar."}
+];
+
+/* ---------- sorteio das letras: 10 respostas em cada letra ---------- */
+const LET = ["a","b","c","d"];
+function rng(seed){ let s = seed >>> 0; return () => { s = (s + 0x6D2B79F5) >>> 0; let t = s; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function shuffle(a, r){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function build(seed){
+  const r = rng(seed);
+  const slots = shuffle([...Array(MC.length)].map((_, i) => i % 4), r);
+  return MC.map((q, i) => { const opts = shuffle([...q.w], r); opts.splice(slots[i], 0, q.c); return { ...q, opts, ans: slots[i] }; });
+}
+
+const store = {
+  get(k){ try { return JSON.parse(localStorage.getItem("simcie3:" + k)); } catch { return null; } },
+  set(k, v){ try { localStorage.setItem("simcie3:" + k, JSON.stringify(v)); } catch {} }
+};
+let seed = store.get("seed") || 3052;
+let answers = store.get("answers") || {};
+let texts = store.get("texts") || {};
+let marks = store.get("marks") || {};
+let finished = store.get("finished") || false;
+let quiz = build(seed);
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad = n => String(n).padStart(2, "0");
+const fmt = x => x.toFixed(1).replace(".", ",");
+
+function context(q){
+  let h = "";
+  if (q.intro) h += `<p class="intro">${esc(q.intro)}</p>`;
+  if (q.img && IMG[q.img]) h += `<figure><img src="${IMG[q.img]}" alt="${esc(q.leg || "")}" loading="lazy"><figcaption>${esc(q.leg || "")}</figcaption></figure>`;
+  if (q.svg && SVG[q.svg]) h += `<figure class="svg">${SVG[q.svg]}</figure>`;
+  if (q.texto) h += `<blockquote class="texto">${q.texto.map(p => `<p>${esc(p)}</p>`).join("")}</blockquote>${q.fonte ? `<p class="fonte">${esc(q.fonte)}</p>` : ""}`;
+  return h;
+}
+const head = (n, q) => `<div class="qhead"><span class="qn">QUESTÃO ${pad(n)}</span><span class="chip ${q.d}">${D[q.d]}</span><span class="chip t">${T[q.t]}</span></div>`;
+
+function scores(){
+  const mc = quiz.filter((q, i) => answers[i + 1] === q.ans).length;
+  const ds = Object.values(marks).reduce((s, v) => s + v, 0);
+  const graded = Object.keys(marks).length;
+  return { mc, ds, graded, nota: mc * 0.1 + ds * 0.25 };
+}
+
+function renderProva(){
+  let html = `<div class="section-title"><span class="num">1</span><h2>Múltipla escolha</h2></div>
+    <p class="note">Leia com atenção e marque apenas uma alternativa em cada questão.</p><div class="stack">`;
+  quiz.forEach((q, i) => {
+    const n = i + 1, picked = answers[n];
+    const cls = "q" + (finished ? (picked === q.ans ? " right" : " wrong") + " done" : "");
+    html += `<article class="${cls}" id="q${n}">${head(n, q)}${context(q)}
+      <p class="stem">${q.q} <span class="val">(0,1)</span></p>
+      <ul class="opts">${q.opts.map((o, k) => {
+        let oc = "opt";
+        if (finished && k === q.ans) oc += " is-correct"; else if (finished && k === picked) oc += " is-wrong";
+        return `<li><label class="${oc}"><input type="radio" name="m${n}" value="${k}" ${picked === k ? "checked" : ""} ${finished ? "disabled" : ""}><span class="letter">${LET[k]})</span><span>${esc(o)}</span></label></li>`;
+      }).join("")}</ul>
+      ${finished ? `<div class="feedback ${picked === q.ans ? "ok" : "bad"}">${picked === q.ans ? "Correto!" : picked == null ? `Sem resposta. A certa é a letra ${LET[q.ans]}.` : `A resposta certa é a letra ${LET[q.ans]}.`}</div>` : ""}
+    </article>`;
+  });
+  html += `</div><div class="section-title pagebreak"><span class="num">2</span><h2>Questões para responder</h2></div>
+    <p class="note">Responda com as suas palavras, usando frases completas.</p><div class="stack">`;
+  DS.forEach((q, i) => {
+    const n = MC.length + 1 + i, m = marks[n];
+    html += `<article class="q" id="q${n}">${head(n, q)}${context(q)}
+      <label class="stem" for="t${n}">${q.q} <span class="val">(0,25)</span></label>
+      <textarea id="t${n}" data-n="${n}" rows="3">${esc(texts[n] || "")}</textarea>
+      ${finished ? `<div class="expected"><b>Resposta esperada:</b> ${esc(q.r)}</div>
+        <div class="grade" data-n="${n}">Correção do adulto:
+          <button type="button" data-v="1" aria-pressed="${m === 1}">Certa</button>
+          <button type="button" data-v="0.5" aria-pressed="${m === 0.5}">Metade</button>
+          <button type="button" data-v="0" aria-pressed="${m === 0}">Errada</button></div>` : ""}
+    </article>`;
+  });
+  html += `</div>`;
+  if (finished){
+    const s = scores();
+    html += `<div class="score" style="margin-top:18px">
+      <div><b>${fmt(s.nota)}</b><span>nota de 0 a 10</span></div>
+      <div><b>${s.mc}/${MC.length}</b><span>acertos na múltipla escolha</span></div>
+      ${["f","m","d"].map(k => { const all = quiz.filter(q => q.d === k); const ok = all.filter(q => answers[quiz.indexOf(q) + 1] === q.ans).length; return `<div><b>${ok}/${all.length}</b><span>${D[k].toLowerCase()}s certas</span></div>`; }).join("")}
+      <div><b>${fmt(s.ds)}/${DS.length}</b><span>questões escritas (${s.graded} de ${DS.length} corrigidas)</span></div>
+    </div>
+    <div class="finish no-print" style="margin-top:12px"><span>Corrija as questões ${MC.length + 1} a ${MC.length + DS.length} com os botões Certa, Metade ou Errada. A nota é atualizada na hora.</span><button type="button" class="tool" id="reset">Fazer de novo</button></div>`;
+  } else {
+    html += `<div class="finish no-print" style="margin-top:18px"><span><b id="count">${Object.keys(answers).length}</b> de ${MC.length} questões de múltipla escolha respondidas</span><button type="button" class="tool primary" id="finish">Finalizar e corrigir</button></div>`;
+  }
+  $("#prova").innerHTML = html;
+  $("#nota").textContent = finished ? fmt(scores().nota) : "—";
+}
+
+function renderGabarito(){
+  const by = [0,0,0,0]; quiz.forEach(q => by[q.ans]++);
+  let html = `<div class="section-title"><span class="num">✓</span><h2>Gabarito · versão ${seed}</h2></div>
+    <p class="note">Para o responsável. Cada nova versão sorteia de novo a letra das respostas, e o gabarito acompanha.</p>
+    <div class="dist">${LET.map((l, i) => `<span>${l}) ${by[i]} respostas</span>`).join("")}</div>
+    <div class="key"><table><thead><tr><th>Questão</th><th>Letra</th><th>Resposta</th><th>Nível</th></tr></thead><tbody>`;
+  quiz.forEach((q, i) => { html += `<tr><td>${pad(i + 1)}</td><td class="ans">${LET[q.ans]}</td><td>${esc(q.c)}</td><td><span class="chip ${q.d}">${D[q.d]}</span></td></tr>`; });
+  html += `</tbody></table></div><h3 style="margin-top:18px">Questões para responder</h3>
+    <div class="key"><table><thead><tr><th>Questão</th><th>Resposta esperada</th><th>Nível</th></tr></thead><tbody>`;
+  DS.forEach((q, i) => { html += `<tr><td>${MC.length + 1 + i}</td><td>${esc(q.r)}</td><td><span class="chip ${q.d}">${D[q.d]}</span></td></tr>`; });
+  $("#gabarito").innerHTML = html + `</tbody></table></div>`;
+}
+function render(){ renderProva(); renderGabarito(); $("#versao").textContent = `· Versão ${seed}`; }
+
+document.addEventListener("change", e => {
+  const el = e.target;
+  if (el.type === "radio" && el.name.startsWith("m")){
+    answers[+el.name.slice(1)] = +el.value; store.set("answers", answers);
+    const c = $("#count"); if (c) c.textContent = Object.keys(answers).length;
+  }
+});
+document.addEventListener("input", e => {
+  if (e.target.matches("textarea[data-n]")){ texts[e.target.dataset.n] = e.target.value; store.set("texts", texts); }
+  if (e.target.matches(".sheet input")) store.set("f:" + e.target.id, e.target.value);
+});
+["aluno","prof","data"].forEach(id => { const v = store.get("f:" + id); if (v) $("#" + id).value = v; });
+
+document.addEventListener("click", e => {
+  const t = e.target;
+  if (t.id === "finish"){ finished = true; store.set("finished", true); renderProva(); $("#prova").scrollIntoView({ behavior: "smooth" }); }
+  if (t.id === "reset"){
+    answers = {}; texts = {}; marks = {}; finished = false;
+    ["answers","texts","marks"].forEach(k => store.set(k, {})); store.set("finished", false);
+    renderProva(); window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  const g = t.closest(".grade button");
+  if (g){
+    const n = g.parentElement.dataset.n, v = +g.dataset.v;
+    marks[n] = v; store.set("marks", marks);
+    const y = window.scrollY; renderProva(); window.scrollTo(0, y);
+  }
+});
+
+function tab(which){
+  const g = which === "gabarito";
+  $("#prova").hidden = g; $("#gabarito").hidden = !g;
+  $("#tab-prova").setAttribute("aria-selected", String(!g));
+  $("#tab-gabarito").setAttribute("aria-selected", String(g));
+}
+$("#tab-prova").addEventListener("click", () => tab("prova"));
+$("#tab-gabarito").addEventListener("click", () => tab("gabarito"));
+
+$("#shuffle").addEventListener("click", () => {
+  seed = 1000 + Math.floor(Math.random() * 9000);
+  answers = {}; marks = {}; finished = false;
+  store.set("seed", seed); store.set("answers", answers); store.set("marks", marks); store.set("finished", false);
+  quiz = build(seed); render();
+});
+
+// Imprimir só funciona com o arquivo aberto direto no navegador
+if (!window.claude){ const p = $("#print"); p.hidden = false; p.addEventListener("click", () => window.print()); }
+
+// Dentro do Claude: salvar este mesmo arquivo para abrir em qualquer lugar
+const SOURCE = (() => {
+  const doc = document.documentElement.cloneNode(true);
+  doc.querySelectorAll("script:not(#app), meta[http-equiv]").forEach(n => n.remove());
+  doc.querySelector("#prova").innerHTML = ""; doc.querySelector("#gabarito").innerHTML = "";
+  return "<!doctype html>\n" + doc.outerHTML;
+})();
+if (window.claude?.use){
+  claude.use("downloads").then(dl => {
+    if (!dl) return;
+    const b = $("#save"); b.hidden = false;
+    b.addEventListener("click", () => dl.save({ filename: "simulado-ciencias-3ano.html", data: SOURCE }).catch(() => {}));
+  }).catch(() => {});
+}
+
+render();
+})();
+</script>
+</body>
+</html>
