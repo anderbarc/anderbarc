@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulado de Português 3º ano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#f3f5f4; --surface:#ffffff; --sunk:#e8ecea; --ink:#1d2622; --muted:#5a6660; --line:#d3dad6;
+  --primary:#8a3a8f; --primary-ink:#ffffff; --primary-soft:#f1e1f2;
+  --sun:#f2b705; --sun-soft:#fdf1c8;
+  --easy:#2f8f46; --easy-soft:#dcf2e1; --mid:#b86e00; --mid-soft:#fbe9cc; --hard:#c2372f; --hard-soft:#f9dcd9;
+  --ok:#2f8f46; --bad:#c2372f;
+  --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",Arial,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121816; --surface:#1a2320; --sunk:#232e2a; --ink:#e6eeea; --muted:#9aaaa3; --line:#33413c;
+    --primary:#d99ade; --primary-ink:#1f1321; --primary-soft:#3a2440;
+    --sun:#f5c842; --sun-soft:#3a3218;
+    --easy:#6fd08a; --easy-soft:#1c3524; --mid:#f0a948; --mid-soft:#3a2c17; --hard:#ff8a80; --hard-soft:#3d201e;
+    --ok:#6fd08a; --bad:#ff8a80; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121816; --surface:#1a2320; --sunk:#232e2a; --ink:#e6eeea; --muted:#9aaaa3; --line:#33413c;
+  --primary:#d99ade; --primary-ink:#1f1321; --primary-soft:#3a2440;
+  --sun:#f5c842; --sun-soft:#3a3218;
+  --easy:#6fd08a; --easy-soft:#1c3524; --mid:#f0a948; --mid-soft:#3a2c17; --hard:#ff8a80; --hard-soft:#3d201e;
+  --ok:#6fd08a; --bad:#ff8a80; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:860px;margin:0 auto;display:grid;gap:18px}
+.stack{display:grid;gap:14px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance}
+
+/* cabeçalho no formato de avaliação */
+.cover{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:14px;border-top:6px solid var(--primary)}
+.cover h1{font-size:30px;font-weight:800;text-align:center}
+.cover .sub{text-align:center;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:13px;color:var(--muted)}
+.sheet{display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--ink);border-radius:4px;overflow:hidden}
+.sheet label,.sheet div{border:1px solid var(--line);margin:-1px 0 0 -1px;padding:6px 8px;display:grid;gap:2px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.sheet input{font:inherit;font-size:16px;text-transform:none;letter-spacing:0;font-weight:400;color:var(--ink);border:none;background:transparent;padding:2px 0;width:100%}
+.sheet span{font-size:16px;text-transform:none;letter-spacing:0;font-weight:400;color:var(--ink)}
+.sheet .nota span{font-family:var(--display);font-weight:800;font-size:20px;color:var(--primary)}
+.c2{grid-column:span 2}.c3{grid-column:span 3}.c4{grid-column:span 4}.c6{grid-column:span 6}
+@media (max-width:560px){.sheet{grid-template-columns:repeat(2,1fr)}.c2,.c3,.c4{grid-column:span 1}.c6,.wide{grid-column:span 2}}
+.legend{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
+
+.tabs{display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px}
+.tabs button,.tool{font:inherit;font-size:15px;font-weight:700;border-radius:999px;padding:8px 16px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.tabs .spacer{flex:1}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+.section-title{display:flex;align-items:center;gap:10px;padding-top:10px}
+.section-title h2{font-size:24px}
+.section-title .num{font-family:var(--display);font-weight:800;background:var(--sun);color:#1d2622;border-radius:8px;padding:0 10px;font-size:20px}
+
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px;break-inside:avoid}
+.q.right{border-color:var(--ok);box-shadow:inset 4px 0 0 var(--ok)}
+.q.wrong{border-color:var(--bad);box-shadow:inset 4px 0 0 var(--bad)}
+.qhead{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.qn{font-weight:700;font-size:16px;letter-spacing:.06em;color:var(--muted);margin-right:auto;font-variant-numeric:tabular-nums}
+.chip{font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;letter-spacing:.02em}
+.chip.f{background:var(--easy-soft);color:var(--easy)}
+.chip.m{background:var(--mid-soft);color:var(--mid)}
+.chip.d{background:var(--hard-soft);color:var(--hard)}
+.chip.t{background:var(--sunk);color:var(--muted)}
+.intro{margin:0}
+.texto{margin:0;padding:4px 0 4px 16px;border-left:3px solid var(--sun);text-indent:1.5em}
+.texto p{margin:0 0 6px}
+.fonte{margin:0;text-align:right;font-size:13px;color:var(--muted)}
+figure{margin:0;display:grid;gap:6px;justify-items:center}
+figure img{display:block;max-width:100%;width:520px;height:auto;border-radius:4px;border:1px solid var(--line)}
+figcaption{font-size:14px;color:var(--muted);max-width:520px;text-align:left;width:100%}
+.stem{margin:0}
+.stem .val{font-size:13px;color:var(--muted);white-space:nowrap}
+.opts{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--line);border-radius:10px;cursor:pointer;background:var(--surface)}
+.opt:hover{border-color:var(--primary)}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.letter{flex:none;width:30px;height:28px;border-radius:14px;border:2px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:15px}
+.opt:has(input:checked){border-color:var(--primary);background:var(--primary-soft)}
+.opt:has(input:checked) .letter{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.opt:has(input:focus-visible){outline:3px solid var(--sun)}
+.opt.is-correct{border-color:var(--ok);background:var(--easy-soft)}
+.opt.is-correct .letter{border-color:var(--ok);color:var(--ok)}
+.opt.is-wrong{border-color:var(--bad);background:var(--hard-soft)}
+.done .opt{cursor:default}
+textarea{font:inherit;width:100%;min-height:96px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);resize:vertical;
+  background-image:repeating-linear-gradient(transparent 0 30px,var(--line) 30px 31px);background-attachment:local;line-height:31px}
+.expected{border-left:4px solid var(--primary);background:var(--primary-soft);border-radius:0 8px 8px 0;padding:8px 12px;font-size:15px}
+.expected b{color:var(--primary)}
+.grade{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px;color:var(--muted)}
+.grade button{font:inherit;font-size:14px;font-weight:700;border-radius:999px;padding:4px 12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.grade button[aria-pressed="true"][data-v="1"]{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.grade button[aria-pressed="true"][data-v="0.5"]{background:var(--mid);border-color:var(--mid);color:var(--surface)}
+.grade button[aria-pressed="true"][data-v="0"]{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.feedback{font-size:14px;font-weight:700}
+.feedback.ok{color:var(--ok)} .feedback.bad{color:var(--bad)}
+.finish{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.primary{background:var(--primary)!important;border-color:var(--primary)!important;color:var(--primary-ink)!important}
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.score div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.score b{display:block;font-family:var(--display);font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.score span{font-size:13px;color:var(--muted)}
+.key{overflow-x:auto}
+.key table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;background:var(--surface)}
+.key th,.key td{border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:15px;vertical-align:top}
+.key th{background:var(--sunk);font-size:13px}
+.key .ans{font-family:var(--display);font-weight:800;font-size:18px;color:var(--primary);text-align:center;width:48px}
+.dist{display:flex;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.dist span{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:2px 10px}
+.note{font-size:14px;color:var(--muted);margin:0}
+@media print{
+  body{background:#fff;color:#000;font-size:12pt;padding:0}
+  .tabs,.finish,.tool,.no-print,.grade{display:none!important}
+  .q,.cover{border:none;box-shadow:none!important;padding:8px 0}
+  .opt{border:none;padding:1px 0}
+  .opt.is-correct,.opt.is-wrong,.opt:has(input:checked){background:none}
+  .letter{border:none;width:auto;height:auto}
+  textarea{border:none;min-height:110px;background-image:repeating-linear-gradient(transparent 0 30px,#777 30px 31px)}
+  figure img{filter:grayscale(1);width:380px}
+  .pagebreak{break-before:page}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="cover">
+    <span class="sub">Ensino Fundamental · 3º bimestre</span>
+    <h1>Simulado de Língua Portuguesa</h1>
+    <div class="sheet">
+      <label class="c4 wide" for="aluno">Aluno(a)<input id="aluno" type="text" autocomplete="off"></label>
+      <div class="c2">Série<span>3º ano</span></div>
+      <div class="c2">Disciplina<span>Língua Portuguesa</span></div>
+      <label class="c2" for="prof">Professor(a)<input id="prof" type="text" autocomplete="off"></label>
+      <label class="c2" for="data">Data<input id="data" type="text" autocomplete="off" placeholder="__/__"></label>
+      <div class="c3 nota">Nota<span id="nota">—</span></div>
+      <div class="c3">Valor<span>10,0</span></div>
+      <div class="c6">Conteúdo<span>Fábula, verbos (ação, estado, fenômeno e tempos), acentuação das paroxítonas, til e plural, sons nasais, notícia, carta do leitor, pronomes pessoais, possessivos e demonstrativos, divulgação científica (capítulos 7, 8 e 9).</span></div>
+    </div>
+    <div class="legend">Dificuldade: <span class="chip f">Fácil</span><span class="chip m">Médio</span><span class="chip d">Difícil</span><span id="versao"></span></div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-prova" aria-selected="true">Prova</button>
+    <button role="tab" id="tab-gabarito" aria-selected="false">Gabarito</button>
+    <span class="spacer"></span>
+    <button class="tool" id="shuffle" type="button" title="Sorteia de novo a letra das respostas certas">Nova versão</button>
+    <button class="tool" id="print" type="button" hidden>Imprimir</button>
+    <button class="tool" id="save" type="button" hidden>Baixar arquivo</button>
+  </nav>
+
+  <main id="prova"></main>
+  <section id="gabarito" hidden></section>
+</div>
+
+<script id="app">
+(() => {
+const IMG = {};
+const T = { fab: "Fábula", verb: "Verbos", acen: "Acentuação", til: "Til e plural", nas: "Sons nasais", not: "Notícia", carta: "Carta do leitor", pron: "Pronomes", div: "Divulgação científica" };
+const D = { f: "Fácil", m: "Médio", d: "Difícil" };
+const LIVRO = "Livro de Língua Portuguesa, 3º ano, volume 3 (adaptado).";
+const SIM = "Texto criado para este simulado.";
+
+const GRALHA = ["A gralha sonhava em ser tão bonita quanto um pavão. Um dia, teve uma ideia: juntou as penas que os pavões deixavam cair e colocou-as em seu corpo.",
+  "Toda orgulhosa, foi mostrar sua beleza para as outras gralhas. Mas, em vez de elogios, recebeu vaias e bicadas. Depois, voou até os pavões, que também a expulsaram.",
+  "A verdadeira beleza está em aceitar e valorizar quem somos."];
+const PASTOR = ["Era uma vez um pastorzinho que se chateava muito por ter que cuidar de suas ovelhas. Para se divertir, gritava:",
+  "— O lobo! O lobo! Socorro!",
+  "Os lavradores largavam o trabalho e corriam para ajudar, mas era mentira. Dias depois, o lobo apareceu de verdade. O menino gritou, mas ninguém acreditou nele, e o lobo comeu quase todas as ovelhas."];
+const NOTICIA = ["ALUNOS DO 3º ANO PLANTAM 40 MUDAS DE ÁRVORES NATIVAS NO BAIRRO",
+  "12 de setembro de 2026",
+  "Na manhã desta quinta-feira (11), estudantes do 3º ano de uma escola municipal plantaram 40 mudas de árvores nativas em uma praça do bairro. A ação faz parte de um projeto sobre a preservação do meio ambiente.",
+  "“Cada criança vai cuidar de uma muda até ela crescer”, contou a professora responsável pelo projeto."];
+const CARTA = ["Prezados editores,",
+  "Meu nome é Lara, tenho 9 anos e moro em Londrina (PR). Adorei a reportagem sobre os golfinhos publicada na última edição. Eu não sabia que eles usam o nariz para fazer sons! Gostaria que vocês escrevessem sobre as baleias também.",
+  "Um abraço,", "Lara"];
+
+const MC = [
+// ===== Fábula =====
+{t:"fab",d:"f",intro:"Leia a fábula.",texto:GRALHA,fonte:"Baseado na fábula de Esopo A gralha e os pavões.",
+ q:"Esse texto é uma fábula porque",
+ c:"é uma narrativa curta, com animais que agem como pessoas e uma moral no final.",
+ w:["conta um fato que aconteceu ontem na cidade.","explica como preparar uma receita.","é uma carta enviada para uma revista.","apresenta informações científicas sobre as aves."]},
+{t:"fab",d:"f",intro:"Releia a fábula da questão 01.",
+ q:"O sonho da gralha era",
+ c:"ser tão bonita quanto um pavão.",
+ w:["voar mais alto que os pavões.","morar em uma floresta maior.","aprender a cantar.","ter um ninho enfeitado."]},
+{t:"fab",d:"m",q:"Na fábula A gralha e os pavões, para realizar seu sonho, a gralha",
+ c:"colocou em seu corpo as penas que os pavões deixaram cair.",
+ w:["pintou as penas com tinta azul.","pediu penas emprestadas às outras gralhas.","mudou-se para a casa dos pavões.","comprou uma roupa colorida."]},
+{t:"fab",d:"m",intro:"Leia a moral da fábula.",texto:["A verdadeira beleza está em aceitar e valorizar quem somos."],fonte:"Baseado na fábula de Esopo A gralha e os pavões.",
+ q:"Essa moral quer dizer que",
+ c:"devemos ser felizes do jeito que somos.",
+ w:["devemos imitar quem é mais bonito.","as gralhas são mais bonitas que os pavões.","não devemos ter amigos.","a aparência é a coisa mais importante."]},
+{t:"fab",d:"f",intro:"Leia o trecho da fábula.",texto:PASTOR,fonte:"Baseado na fábula de Esopo O pastor e o lobo.",
+ q:"A expressão que leva o leitor para o mundo da imaginação, no início do texto, é",
+ c:"“Era uma vez”.",
+ w:["“Dias depois”.","“O lobo! O lobo!”.","“Para se divertir”.","“ninguém acreditou”."]},
+{t:"fab",d:"m",intro:"Releia a fábula da questão 05.",
+ q:"A maior consequência das mentiras do pastorzinho foi",
+ c:"não conseguir ajuda quando o lobo apareceu de verdade.",
+ w:["ficar famoso entre os lavradores.","ganhar mais ovelhas.","fazer os lavradores rirem.","aprender a caçar lobos."]},
+{t:"fab",d:"d",q:"Qual moral combina com a fábula O pastorzinho mentiroso?",
+ c:"Quem mente muitas vezes perde a confiança dos outros.",
+ w:["Devagar se vai ao longe.","A união faz a força.","Quem espera sempre alcança.","Mais vale um pássaro na mão do que dois voando."]},
+{t:"fab",d:"m",q:"Na fábula O pastorzinho mentiroso, a história é contada",
+ c:"por um narrador que não participa dela.",
+ w:["pelo pastorzinho.","pelos lavradores.","pelo lobo.","pelas ovelhas."]},
+{t:"fab",d:"m",intro:"Leia a fábula.",texto:["Uma raposa passou embaixo de uma parreira carregada de lindas uvas. Ficou com muita vontade de comer aquelas uvas.","Deu muitos saltos, tentou subir na parreira, mas não conseguiu. Depois de muito tentar, foi embora, dizendo:","— Eu nem estou ligando para as uvas. Elas estão verdes mesmo..."],fonte:"Baseado na fábula de Esopo A raposa e as uvas.",
+ q:"Quando diz que as uvas estavam verdes, a raposa",
+ c:"despreza aquilo que não conseguiu conquistar.",
+ w:["mostra que não gostava de uvas.","fica feliz por ter comido todas as uvas.","divide as uvas com os amigos.","decide esperar as uvas amadurecerem."]},
+
+// ===== Verbos =====
+{t:"verb",d:"f",intro:"Leia o trecho da fábula A gralha e os pavões.",texto:["Então, voou em direção aos pavões."],fonte:LIVRO,
+ q:"A palavra voou indica",
+ c:"uma ação.",
+ w:["um estado.","um fenômeno da natureza.","o nome de um animal.","uma característica."]},
+{t:"verb",d:"m",q:"Em qual frase o verbo indica um <u>estado</u>?",
+ c:"A gralha ficou toda animada.",
+ w:["A gralha voou para longe.","Choveu bastante ontem.","Os pavões expulsaram a ave.","O menino correu para a aldeia."]},
+{t:"verb",d:"f",q:"O verbo que indica um fenômeno da natureza é",
+ c:"trovejar.",
+ w:["pular.","ficar.","comer.","estar."]},
+{t:"verb",d:"m",q:"Complete a frase: “No verão, geralmente ______ mais cedo.” O verbo que completa a frase corretamente é",
+ c:"amanhece.",
+ w:["pula.","estuda.","fica.","caminha."]},
+{t:"verb",d:"m",intro:"Leia a frase.",texto:["Os cachorros roeram todos os ossos."],fonte:SIM,
+ q:"Nessa frase, o verbo roeram está no tempo",
+ c:"passado.",
+ w:["presente.","futuro.","presente e futuro ao mesmo tempo.","nenhum, pois roeram não é verbo."]},
+{t:"verb",d:"m",q:"Em qual frase o verbo está no <u>futuro</u>?",
+ c:"No próximo ano, farei natação.",
+ w:["A gente toma café da manhã cedo.","O porteiro separou as correspondências.","Ontem eu fui à escola.","Os alunos estão felizes com a nota."]},
+{t:"verb",d:"d",intro:"Leia a frase.",texto:["O teatro está lotado."],fonte:SIM,
+ q:"Se essa frase fosse escrita no passado, ficaria",
+ c:"“O teatro estava lotado.”",
+ w:["“O teatro estará lotado.”","“O teatro fica lotado.”","“O teatro ficará lotado.”","“O teatro vai estar lotado.”"]},
+{t:"verb",d:"d",q:"Complete com o verbo plantar no futuro: “Amanhã, nós ______ árvores para embelezar a cidade.”",
+ c:"plantaremos",
+ w:["plantamos","plantaram","plantou","plantava"]},
+
+// ===== Acentuação =====
+{t:"acen",d:"f",q:"A palavra pastorzinho, separada em sílabas, fica",
+ c:"pas-tor-zi-nho.",
+ w:["pa-stor-zi-nho.","pas-to-rzi-nho.","past-or-zin-ho.","pas-tor-zin-ho."]},
+{t:"acen",d:"m",q:"Na palavra pastorzinho, a sílaba mais forte é zi. Por isso, quanto à sílaba tônica, ela é",
+ c:"paroxítona.",
+ w:["oxítona.","proparoxítona.","monossílaba.","dissílaba."]},
+{t:"acen",d:"f",q:"Paroxítona é a palavra em que a sílaba tônica é a",
+ c:"penúltima.",
+ w:["última.","antepenúltima.","primeira, sempre.","que tem til."]},
+{t:"acen",d:"m",q:"Em qual grupo <u>todas</u> as palavras são paroxítonas acentuadas?",
+ c:"fácil, lápis, açúcar",
+ w:["café, sofá, jacaré","mesa, doce, amigo","lâmpada, pássaro, música","pão, mão, cão"]},
+{t:"acen",d:"d",intro:"Observe as palavras.",texto:["sério — prêmio — insônia"],fonte:LIVRO,
+ q:"Essas palavras são acentuadas porque são paroxítonas terminadas em",
+ c:"ditongo.",
+ w:["l.","r.","x.","ão."]},
+{t:"acen",d:"d",q:"Qual palavra está acentuada corretamente?",
+ c:"fóssil",
+ w:["mésa","amígo","dóce","cadêrno"]},
+
+// ===== Til e plural =====
+{t:"til",d:"f",q:"O til (~) é um sinal usado para indicar",
+ c:"o som nasal nas vogais a e o.",
+ w:["que a palavra está no plural.","a sílaba mais fraca.","uma pergunta.","o som de z."]},
+{t:"til",d:"m",intro:"Observe as palavras.",texto:["manha — manhã"],fonte:LIVRO,
+ q:"Nessas palavras, o til",
+ c:"mudou o som da letra a e também o sentido da palavra.",
+ w:["não mudou nada.","mudou apenas a escrita.","mudou apenas o sentido.","transformou a palavra em verbo."]},
+{t:"til",d:"f",q:"O plural de pão é",
+ c:"pães.",
+ w:["pãos.","pões.","pãoes.","pão."]},
+{t:"til",d:"m",q:"Qual palavra faz o plural em -ões, como coração → corações?",
+ c:"limão",
+ w:["cão","mão","alemão","capitão"]},
+{t:"til",d:"d",q:"Em qual par o plural está escrito corretamente?",
+ c:"irmão → irmãos",
+ w:["leão → leãos","pão → pãos","cão → cãos","avião → aviãos"]},
+
+// ===== Sons nasais =====
+{t:"nas",d:"f",q:"Antes das letras p e b, no final da sílaba, usamos a letra",
+ c:"m, como em sempre e bombom.",
+ w:["n, como em senpre e bonbom.","s, como em sespre.","r, como em serpre.","l, como em selpre."]},
+{t:"nas",d:"m",intro:"Leia a frase.",texto:["O passeio que seria bem simples vai ser melhor do que a gente imaginava."],fonte:LIVRO,
+ q:"Na palavra gente, o som nasal acontece porque",
+ c:"a vogal e é seguida da letra n no final da sílaba.",
+ w:["a palavra tem til.","a palavra tem acento agudo.","a letra g tem som de j.","a palavra é oxítona."]},
+{t:"nas",d:"d",intro:"Observe os pares de palavras.",texto:["tapa — tampa     mata — manta     boba — bomba"],fonte:LIVRO,
+ q:"Ao acrescentar m ou n nessas palavras,",
+ c:"o som ficou nasal e o sentido da palavra mudou.",
+ w:["o som continuou igual.","a palavra passou a ter acento.","o sentido continuou o mesmo.","as palavras viraram plural."]},
+
+// ===== Notícia =====
+{t:"not",d:"f",q:"A finalidade de uma notícia é",
+ c:"relatar fatos recentes e de interesse do público.",
+ w:["ensinar uma moral por meio de animais.","contar uma história inventada.","dar a opinião de um leitor sobre uma revista.","explicar como montar um brinquedo."]},
+{t:"not",d:"f",intro:"Leia a notícia.",texto:NOTICIA,fonte:SIM,
+ q:"O fato noticiado foi",
+ c:"o plantio de mudas de árvores por estudantes.",
+ w:["a inauguração de uma praça.","uma festa na escola.","a venda de mudas de árvores.","uma viagem da turma do 3º ano."]},
+{t:"not",d:"m",intro:"Releia a notícia da questão 33.",
+ q:"O trecho entre aspas (“Cada criança vai cuidar de uma muda até ela crescer”) é",
+ c:"a fala de uma pessoa que participou do fato.",
+ w:["o título da notícia.","a opinião do leitor do jornal.","a data da publicação.","a moral da história."]},
+{t:"not",d:"m",q:"O título de uma notícia serve para",
+ c:"chamar a atenção do leitor e mostrar o assunto principal.",
+ w:["informar o nome de quem escreveu.","contar o final da história.","mostrar a data em que foi publicada.","apresentar a moral do texto."]},
+{t:"not",d:"d",intro:"Leia o trecho de uma notícia sobre os micos-leões-dourados.",texto:["A ampliação da rodovia acabou por isolar grupos de micos, impedindo a interação entre os animais."],fonte:LIVRO,
+ q:"Segundo o trecho, um problema enfrentado pelos micos-leões-dourados é",
+ c:"o isolamento dos grupos, causado pela ampliação da rodovia.",
+ w:["a falta de frutas nas árvores.","o excesso de água nos rios.","a presença de muitos turistas.","o frio do inverno."]},
+
+// ===== Carta do leitor =====
+{t:"carta",d:"f",intro:"Leia a carta do leitor enviada a uma revista infantil.",texto:CARTA,fonte:SIM,
+ q:"Quem escreveu a carta foi",
+ c:"Lara, uma leitora de 9 anos.",
+ w:["o editor da revista.","um golfinho.","a professora de Lara.","um jornalista de Londrina."]},
+{t:"carta",d:"m",intro:"Releia a carta da questão 37.",
+ q:"Na carta, a leitora",
+ c:"elogia a reportagem e faz uma sugestão.",
+ w:["critica a reportagem.","conta uma notícia sobre baleias.","ensina uma moral.","reclama do preço da revista."]},
+{t:"carta",d:"m",q:"A carta de Lara foi escrita em 1ª pessoa. Um trecho que comprova isso é",
+ c:"“Eu não sabia que eles usam o nariz para fazer sons!”",
+ w:["“os golfinhos”.","“publicada na última edição”.","“Prezados editores”.","“sobre as baleias”."]},
+{t:"carta",d:"d",q:"Na carta de Lara, “Prezados editores” e “Um abraço, Lara” são, nessa ordem,",
+ c:"a saudação e a despedida com a assinatura.",
+ w:["o título e a data.","a despedida e a saudação.","a notícia e a opinião.","a moral e o final."]},
+
+// ===== Pronomes =====
+{t:"pron",d:"f",q:"Complete: “Meu nome é Anderson, tenho 36 anos e ____ sou gateiro.” O pronome pessoal que completa a frase é",
+ c:"eu.",
+ w:["ele.","nós.","eles.","vocês."]},
+{t:"pron",d:"m",intro:"Leia as frases.",texto:["Nathan ganhou medalha de ouro. ______ foi o primeiro a lutar."],fonte:LIVRO,
+ q:"Para evitar a repetição do nome Nathan, a lacuna deve ser completada com",
+ c:"Ele.",
+ w:["Ela.","Eles.","Nós.","Elas."]},
+{t:"pron",d:"m",intro:"Leia a frase.",texto:["Minha mãe e eu pedimos pizza, e o entregador já está chegando com nosso pedido."],fonte:LIVRO,
+ q:"As palavras minha e nosso são pronomes possessivos porque indicam",
+ c:"posse, isto é, a quem algo pertence.",
+ w:["um lugar.","um tempo.","uma ação.","uma quantidade."]},
+{t:"pron",d:"d",intro:"Leia a frase.",texto:["Davi perguntou à amiga onde estava o seu caderno."],fonte:LIVRO,
+ q:"Essa frase pode gerar confusão porque",
+ c:"não fica claro se o caderno é de Davi ou da amiga.",
+ w:["não tem verbo.","está escrita no futuro.","o nome Davi está errado.","não tem nenhum pronome."]},
+{t:"pron",d:"m",intro:"Leia a frase.",texto:["Este cachorro que seguro é muito bonzinho."],fonte:LIVRO,
+ q:"O pronome demonstrativo este indica que o cachorro está",
+ c:"perto da pessoa que fala.",
+ w:["longe da pessoa que fala e perto de quem ouve.","longe das duas pessoas.","em outra cidade.","dentro de um livro."]},
+
+// ===== Divulgação científica =====
+{t:"div",d:"f",intro:"Leia o texto de divulgação científica.",texto:["Os coalas vivem na Austrália e passam o dia em árvores de eucalipto, comendo folhas e dormindo. Eles chegam a dormir quase 20 horas por dia, porque as folhas de eucalipto são pouco nutritivas e eles precisam economizar energia. A água das folhas é suficiente para mantê-los hidratados."],fonte:"Baseado no texto Fofos, preguiçosos e comilões, estudado no livro.",
+ q:"De acordo com o texto, os coalas dormem muito porque",
+ c:"as folhas que comem são pouco nutritivas e eles precisam economizar energia.",
+ w:["não conseguem subir nas árvores.","ficam cansados de tanto nadar.","sentem muita sede durante o dia.","têm medo dos outros animais."]},
+{t:"div",d:"m",q:"Os textos de divulgação científica são escritos para",
+ c:"o público em geral, com uma linguagem fácil de entender.",
+ w:["apenas cientistas, com muitas palavras difíceis.","contar histórias com animais que falam.","vender produtos em lojas.","dar a opinião de um leitor."]},
+{t:"div",d:"d",intro:"Leia o trecho.",texto:["O surubim-do-Paraíba sobe o rio nadando contra a correnteza. Por isso, alguns pescadores o chamam de bravo. Hoje, ele corre risco de extinção e está tão difícil de encontrar que parece “história de pescador”."],fonte:"Baseado no texto O bravo nadador que virou história de pescador, estudado no livro.",
+ q:"No texto, a expressão “história de pescador” significa",
+ c:"uma história que parece inventada.",
+ w:["uma história da vida dos pescadores.","um livro escrito por pescadores.","uma notícia de jornal.","uma receita de peixe."]},
+{t:"div",d:"m",intro:"Leia o trecho.",texto:["Golfinhos são cetáceos, ou seja, mamíferos adaptados à vida na água. Ao longo de milhões de anos, suas patas dianteiras foram adaptadas para nadadeiras e as narinas migraram para o topo da cabeça."],fonte:"Baseado no texto Nariz para fazer som, estudado no livro.",
+ q:"No trecho, as formas verbais foram adaptadas e migraram estão no tempo",
+ c:"passado.",
+ w:["presente.","futuro.","presente e futuro.","nenhum, pois não são verbos."]},
+{t:"div",d:"d",intro:"Leia o trecho.",texto:["Os antigos egípcios costumam ser apontados como os primeiros a domesticar os gatos. Mas uma descoberta indica que esses animais podem ter sido domesticados pelo menos cinco mil anos antes disso."],fonte:"Baseado no texto Cães e gatos: um assunto de cientista, estudado no livro.",
+ q:"No trecho, a expressão esses animais foi usada para",
+ c:"retomar os gatos, citados antes, e evitar a repetição.",
+ w:["apresentar animais que ainda vão aparecer no texto.","falar de todos os animais do mundo.","indicar animais que estão perto de quem fala.","mostrar que os egípcios eram animais."]}
+];
+
+const DS = [
+{t:"fab",d:"f",q:"Quem são os personagens da fábula A gralha e os pavões?",
+ r:"A gralha (personagem principal), as outras gralhas e os pavões."},
+{t:"fab",d:"m",q:"Como as outras gralhas reagiram ao ver a gralha com penas de pavão?",
+ r:"Ficaram irritadas: vaiaram, deram bicadas e mandaram a gralha ir embora buscar a turma dela."},
+{t:"fab",d:"d",q:"Qual é a sua opinião sobre a atitude das outras gralhas? Explique.",
+ r:"Resposta pessoal. Espera-se que a criança dê uma opinião e justifique (por exemplo: não foi certo expulsar a amiga, poderiam ter conversado com ela)."},
+{t:"fab",d:"m",q:"O que o pastorzinho fazia para se divertir enquanto cuidava das ovelhas?",
+ r:"Gritava que o lobo estava vindo, só para enganar os lavradores, que largavam o trabalho para ajudar."},
+{t:"fab",d:"d",q:"Escreva, com suas palavras, uma moral para a fábula O pastorzinho mentiroso.",
+ r:"Exemplos: Quem mente perde a confiança dos outros. Não devemos mentir."},
+{t:"fab",d:"f",q:"O que é uma fábula?",
+ r:"É uma narrativa curta em que os personagens, geralmente animais, agem como seres humanos e que termina com uma moral (um ensinamento)."},
+{t:"verb",d:"m",q:"Escreva uma frase com um verbo que indique ação e outra com um verbo que indique estado.",
+ r:"Exemplos: Clara arremessou a bola (ação). João está feliz (estado)."},
+{t:"verb",d:"m",q:"Reescreva a frase no futuro: A menina toma café com leite e come pão.",
+ r:"A menina tomará café com leite e comerá pão."},
+{t:"verb",d:"f",q:"Escreva três verbos que indicam fenômenos da natureza.",
+ r:"Chover, trovejar, nevar, ventar, amanhecer, anoitecer (três deles)."},
+{t:"acen",d:"m",q:"Separe as palavras em sílabas e escreva qual é a sílaba tônica de cada uma: lápis, açúcar, fácil.",
+ r:"lá-pis (lá); a-çú-car (çú); fá-cil (fá)."},
+{t:"acen",d:"d",q:"Explique por que a palavra lápis tem acento.",
+ r:"Porque é paroxítona (a sílaba mais forte é a penúltima) terminada em is."},
+{t:"til",d:"f",q:"Escreva o plural das palavras: mão, leão, alemão.",
+ r:"mãos, leões, alemães."},
+{t:"nas",d:"m",q:"Complete as palavras com m ou n e depois explique a regra: bo__beiro, sa__dália, co__pleto.",
+ r:"bombeiro, sandália, completo. Usamos m antes de p e b; nas outras consoantes, usamos n."},
+{t:"not",d:"m",q:"Quais informações uma notícia costuma apresentar?",
+ r:"Título, data, o que aconteceu, onde, quando, com quem e, às vezes, falas de pessoas envolvidas."},
+{t:"not",d:"d",q:"Escreva o título de uma notícia sobre algo que aconteceu na sua escola ou no seu bairro.",
+ r:"Resposta pessoal. O título deve ser curto e mostrar o assunto principal do fato."},
+{t:"carta",d:"d",q:"Imagine que você leu uma reportagem sobre animais em risco de extinção. Escreva o começo de uma carta do leitor, com saudação e apresentação (nome, idade e cidade).",
+ r:"Resposta pessoal. Deve ter saudação (Prezados editores), apresentação com nome, idade e cidade, e ser escrita em 1ª pessoa."},
+{t:"pron",d:"f",q:"Reescreva a frase substituindo as palavras destacadas por um pronome: CARLOS E HENRIQUE estudam na mesma sala.",
+ r:"Eles estudam na mesma sala."},
+{t:"pron",d:"m",q:"Reescreva a frase de modo que fique claro que o caderno é da amiga: Davi perguntou à amiga onde estava o seu caderno.",
+ r:"Davi perguntou à amiga onde estava o caderno dela."},
+{t:"div",d:"d",q:"Por que o surubim-do-Paraíba corre risco de extinção? Cite duas causas.",
+ r:"Desmatamento das matas ciliares, poluição dos rios por esgoto, pesca excessiva, espécies exóticas e construção de barragens (duas delas)."},
+{t:"div",d:"m",q:"Para que servem os subtítulos em um texto de divulgação científica?",
+ r:"Para organizar o texto e ajudar o leitor a encontrar as informações."}
+];
+
+/* ---------- sorteio das letras: 10 respostas em cada letra ---------- */
+const LET = ["a","b","c","d","e"];
+function rng(seed){ let s = seed >>> 0; return () => { s = (s + 0x6D2B79F5) >>> 0; let t = s; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function shuffle(a, r){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function build(seed){
+  const r = rng(seed);
+  const slots = shuffle([...Array(MC.length)].map((_, i) => i % 5), r);
+  return MC.map((q, i) => { const opts = shuffle([...q.w], r); opts.splice(slots[i], 0, q.c); return { ...q, opts, ans: slots[i] }; });
+}
+
+const store = {
+  get(k){ try { return JSON.parse(localStorage.getItem("simport3:" + k)); } catch { return null; } },
+  set(k, v){ try { localStorage.setItem("simport3:" + k, JSON.stringify(v)); } catch {} }
+};
+let seed = store.get("seed") || 3052;
+let answers = store.get("answers") || {};
+let texts = store.get("texts") || {};
+let marks = store.get("marks") || {};
+let finished = store.get("finished") || false;
+let quiz = build(seed);
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad = n => String(n).padStart(2, "0");
+const fmt = x => x.toFixed(1).replace(".", ",");
+
+function context(q){
+  let h = "";
+  if (q.intro) h += `<p class="intro">${esc(q.intro)}</p>`;
+  if (q.img && IMG[q.img]) h += `<figure><img src="${IMG[q.img]}" alt="${esc(q.leg || "")}" loading="lazy"><figcaption>${esc(q.leg || "")}</figcaption></figure>`;
+  if (q.texto) h += `<blockquote class="texto">${q.texto.map(p => `<p>${esc(p)}</p>`).join("")}</blockquote>${q.fonte ? `<p class="fonte">${esc(q.fonte)}</p>` : ""}`;
+  return h;
+}
+const head = (n, q) => `<div class="qhead"><span class="qn">QUESTÃO ${pad(n)}</span><span class="chip ${q.d}">${D[q.d]}</span><span class="chip t">${T[q.t]}</span></div>`;
+
+function scores(){
+  const mc = quiz.filter((q, i) => answers[i + 1] === q.ans).length;
+  const ds = Object.values(marks).reduce((s, v) => s + v, 0);
+  const graded = Object.keys(marks).length;
+  return { mc, ds, graded, nota: (mc + ds) / (MC.length + DS.length) * 10 };
+}
+
+function renderProva(){
+  let html = `<div class="section-title"><span class="num">1</span><h2>Múltipla escolha</h2></div>
+    <p class="note">Leia com atenção e marque apenas uma alternativa em cada questão.</p><div class="stack">`;
+  quiz.forEach((q, i) => {
+    const n = i + 1, picked = answers[n];
+    const cls = "q" + (finished ? (picked === q.ans ? " right" : " wrong") + " done" : "");
+    html += `<article class="${cls}" id="q${n}">${head(n, q)}${context(q)}
+      <p class="stem">${q.q}</p>
+      <ul class="opts">${q.opts.map((o, k) => {
+        let oc = "opt";
+        if (finished && k === q.ans) oc += " is-correct"; else if (finished && k === picked) oc += " is-wrong";
+        return `<li><label class="${oc}"><input type="radio" name="m${n}" value="${k}" ${picked === k ? "checked" : ""} ${finished ? "disabled" : ""}><span class="letter">${LET[k]})</span><span>${esc(o)}</span></label></li>`;
+      }).join("")}</ul>
+      ${finished ? `<div class="feedback ${picked === q.ans ? "ok" : "bad"}">${picked === q.ans ? "Correto!" : picked == null ? `Sem resposta. A certa é a letra ${LET[q.ans]}.` : `A resposta certa é a letra ${LET[q.ans]}.`}</div>` : ""}
+    </article>`;
+  });
+  html += `</div><div class="section-title pagebreak"><span class="num">2</span><h2>Questões para responder</h2></div>
+    <p class="note">Responda com as suas palavras, usando frases completas.</p><div class="stack">`;
+  DS.forEach((q, i) => {
+    const n = MC.length + 1 + i, m = marks[n];
+    html += `<article class="q" id="q${n}">${head(n, q)}${context(q)}
+      <label class="stem" for="t${n}">${esc(q.q)}</label>
+      <textarea id="t${n}" data-n="${n}" rows="3">${esc(texts[n] || "")}</textarea>
+      ${finished ? `<div class="expected"><b>Resposta esperada:</b> ${esc(q.r)}</div>
+        <div class="grade" data-n="${n}">Correção do adulto:
+          <button type="button" data-v="1" aria-pressed="${m === 1}">Certa</button>
+          <button type="button" data-v="0.5" aria-pressed="${m === 0.5}">Metade</button>
+          <button type="button" data-v="0" aria-pressed="${m === 0}">Errada</button></div>` : ""}
+    </article>`;
+  });
+  html += `</div>`;
+  if (finished){
+    const s = scores();
+    html += `<div class="score" style="margin-top:18px">
+      <div><b>${fmt(s.nota)}</b><span>nota de 0 a 10</span></div>
+      <div><b>${s.mc}/${MC.length}</b><span>acertos na múltipla escolha</span></div>
+      ${["f","m","d"].map(k => { const all = quiz.filter(q => q.d === k); const ok = all.filter(q => answers[quiz.indexOf(q) + 1] === q.ans).length; return `<div><b>${ok}/${all.length}</b><span>${D[k].toLowerCase()}s certas</span></div>`; }).join("")}
+      <div><b>${fmt(s.ds)}/${DS.length}</b><span>questões escritas (${s.graded} de ${DS.length} corrigidas)</span></div>
+    </div>
+    <div class="finish no-print" style="margin-top:12px"><span>Corrija as questões ${MC.length + 1} a ${MC.length + DS.length} com os botões Certa, Metade ou Errada. A nota é atualizada na hora.</span><button type="button" class="tool" id="reset">Fazer de novo</button></div>`;
+  } else {
+    html += `<div class="finish no-print" style="margin-top:18px"><span><b id="count">${Object.keys(answers).length}</b> de ${MC.length} questões de múltipla escolha respondidas</span><button type="button" class="tool primary" id="finish">Finalizar e corrigir</button></div>`;
+  }
+  $("#prova").innerHTML = html;
+  $("#nota").textContent = finished ? fmt(scores().nota) : "—";
+}
+
+function renderGabarito(){
+  const by = [0,0,0,0,0]; quiz.forEach(q => by[q.ans]++);
+  let html = `<div class="section-title"><span class="num">✓</span><h2>Gabarito · versão ${seed}</h2></div>
+    <p class="note">Para o responsável. Cada nova versão sorteia de novo a letra das respostas, e o gabarito acompanha.</p>
+    <div class="dist">${LET.map((l, i) => `<span>${l}) ${by[i]} respostas</span>`).join("")}</div>
+    <div class="key"><table><thead><tr><th>Questão</th><th>Letra</th><th>Resposta</th><th>Nível</th></tr></thead><tbody>`;
+  quiz.forEach((q, i) => { html += `<tr><td>${pad(i + 1)}</td><td class="ans">${LET[q.ans]}</td><td>${esc(q.c)}</td><td><span class="chip ${q.d}">${D[q.d]}</span></td></tr>`; });
+  html += `</tbody></table></div><h3 style="margin-top:18px">Questões para responder</h3>
+    <div class="key"><table><thead><tr><th>Questão</th><th>Resposta esperada</th><th>Nível</th></tr></thead><tbody>`;
+  DS.forEach((q, i) => { html += `<tr><td>${MC.length + 1 + i}</td><td>${esc(q.r)}</td><td><span class="chip ${q.d}">${D[q.d]}</span></td></tr>`; });
+  $("#gabarito").innerHTML = html + `</tbody></table></div>`;
+}
+function render(){ renderProva(); renderGabarito(); $("#versao").textContent = `· Versão ${seed}`; }
+
+document.addEventListener("change", e => {
+  const el = e.target;
+  if (el.type === "radio" && el.name.startsWith("m")){
+    answers[+el.name.slice(1)] = +el.value; store.set("answers", answers);
+    const c = $("#count"); if (c) c.textContent = Object.keys(answers).length;
+  }
+});
+document.addEventListener("input", e => {
+  if (e.target.matches("textarea[data-n]")){ texts[e.target.dataset.n] = e.target.value; store.set("texts", texts); }
+  if (e.target.matches(".sheet input")) store.set("f:" + e.target.id, e.target.value);
+});
+["aluno","prof","data"].forEach(id => { const v = store.get("f:" + id); if (v) $("#" + id).value = v; });
+
+document.addEventListener("click", e => {
+  const t = e.target;
+  if (t.id === "finish"){ finished = true; store.set("finished", true); renderProva(); $("#prova").scrollIntoView({ behavior: "smooth" }); }
+  if (t.id === "reset"){
+    answers = {}; texts = {}; marks = {}; finished = false;
+    ["answers","texts","marks"].forEach(k => store.set(k, {})); store.set("finished", false);
+    renderProva(); window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  const g = t.closest(".grade button");
+  if (g){
+    const n = g.parentElement.dataset.n, v = +g.dataset.v;
+    marks[n] = v; store.set("marks", marks);
+    const y = window.scrollY; renderProva(); window.scrollTo(0, y);
+  }
+});
+
+function tab(which){
+  const g = which === "gabarito";
+  $("#prova").hidden = g; $("#gabarito").hidden = !g;
+  $("#tab-prova").setAttribute("aria-selected", String(!g));
+  $("#tab-gabarito").setAttribute("aria-selected", String(g));
+}
+$("#tab-prova").addEventListener("click", () => tab("prova"));
+$("#tab-gabarito").addEventListener("click", () => tab("gabarito"));
+
+$("#shuffle").addEventListener("click", () => {
+  seed = 1000 + Math.floor(Math.random() * 9000);
+  answers = {}; marks = {}; finished = false;
+  store.set("seed", seed); store.set("answers", answers); store.set("marks", marks); store.set("finished", false);
+  quiz = build(seed); render();
+});
+
+// Imprimir só funciona com o arquivo aberto direto no navegador
+if (!window.claude){ const p = $("#print"); p.hidden = false; p.addEventListener("click", () => window.print()); }
+
+// Dentro do Claude: salvar este mesmo arquivo para abrir em qualquer lugar
+const SOURCE = (() => {
+  const doc = document.documentElement.cloneNode(true);
+  doc.querySelectorAll("script:not(#app), meta[http-equiv]").forEach(n => n.remove());
+  doc.querySelector("#prova").innerHTML = ""; doc.querySelector("#gabarito").innerHTML = "";
+  return "<!doctype html>\n" + doc.outerHTML;
+})();
+if (window.claude?.use){
+  claude.use("downloads").then(dl => {
+    if (!dl) return;
+    const b = $("#save"); b.hidden = false;
+    b.addEventListener("click", () => dl.save({ filename: "simulado-portugues-3ano.html", data: SOURCE }).catch(() => {}));
+  }).catch(() => {});
+}
+
+render();
+})();
+</script>
+</body>
+</html>
