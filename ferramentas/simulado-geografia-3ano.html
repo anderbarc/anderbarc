@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulado de Geografia 3º ano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#f3f5f4; --surface:#ffffff; --sunk:#e8ecea; --ink:#1d2622; --muted:#5a6660; --line:#d3dad6;
+  --primary:#a8392e; --primary-ink:#ffffff; --primary-soft:#f6e0dc;
+  --sun:#f2b705; --sun-soft:#fdf1c8;
+  --easy:#2f8f46; --easy-soft:#dcf2e1; --mid:#b86e00; --mid-soft:#fbe9cc; --hard:#c2372f; --hard-soft:#f9dcd9;
+  --ok:#2f8f46; --bad:#c2372f;
+  --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",Arial,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121816; --surface:#1a2320; --sunk:#232e2a; --ink:#e6eeea; --muted:#9aaaa3; --line:#33413c;
+    --primary:#f0907f; --primary-ink:#221210; --primary-soft:#3e2420;
+    --sun:#f5c842; --sun-soft:#3a3218;
+    --easy:#6fd08a; --easy-soft:#1c3524; --mid:#f0a948; --mid-soft:#3a2c17; --hard:#ff8a80; --hard-soft:#3d201e;
+    --ok:#6fd08a; --bad:#ff8a80; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121816; --surface:#1a2320; --sunk:#232e2a; --ink:#e6eeea; --muted:#9aaaa3; --line:#33413c;
+  --primary:#f0907f; --primary-ink:#221210; --primary-soft:#3e2420;
+  --sun:#f5c842; --sun-soft:#3a3218;
+  --easy:#6fd08a; --easy-soft:#1c3524; --mid:#f0a948; --mid-soft:#3a2c17; --hard:#ff8a80; --hard-soft:#3d201e;
+  --ok:#6fd08a; --bad:#ff8a80; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:860px;margin:0 auto;display:grid;gap:18px}
+.stack{display:grid;gap:14px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance}
+
+/* cabeçalho no formato de avaliação */
+.cover{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:14px;border-top:6px solid var(--primary)}
+.cover h1{font-size:30px;font-weight:800;text-align:center}
+.cover .sub{text-align:center;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:13px;color:var(--muted)}
+.sheet{display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--ink);border-radius:4px;overflow:hidden}
+.sheet label,.sheet div{border:1px solid var(--line);margin:-1px 0 0 -1px;padding:6px 8px;display:grid;gap:2px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.sheet input{font:inherit;font-size:16px;text-transform:none;letter-spacing:0;font-weight:400;color:var(--ink);border:none;background:transparent;padding:2px 0;width:100%}
+.sheet span{font-size:16px;text-transform:none;letter-spacing:0;font-weight:400;color:var(--ink)}
+.sheet .nota span{font-family:var(--display);font-weight:800;font-size:20px;color:var(--primary)}
+.c2{grid-column:span 2}.c3{grid-column:span 3}.c4{grid-column:span 4}.c6{grid-column:span 6}
+@media (max-width:560px){.sheet{grid-template-columns:repeat(2,1fr)}.c2,.c3,.c4{grid-column:span 1}.c6,.wide{grid-column:span 2}}
+.legend{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
+
+.tabs{display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px}
+.tabs button,.tool{font:inherit;font-size:15px;font-weight:700;border-radius:999px;padding:8px 16px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.tabs .spacer{flex:1}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+.section-title{display:flex;align-items:center;gap:10px;padding-top:10px}
+.section-title h2{font-size:24px}
+.section-title .num{font-family:var(--display);font-weight:800;background:var(--sun);color:#1d2622;border-radius:8px;padding:0 10px;font-size:20px}
+
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px;break-inside:avoid}
+.q.right{border-color:var(--ok);box-shadow:inset 4px 0 0 var(--ok)}
+.q.wrong{border-color:var(--bad);box-shadow:inset 4px 0 0 var(--bad)}
+.qhead{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.qn{font-weight:700;font-size:16px;letter-spacing:.06em;color:var(--muted);margin-right:auto;font-variant-numeric:tabular-nums}
+.chip{font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;letter-spacing:.02em}
+.chip.f{background:var(--easy-soft);color:var(--easy)}
+.chip.m{background:var(--mid-soft);color:var(--mid)}
+.chip.d{background:var(--hard-soft);color:var(--hard)}
+.chip.t{background:var(--sunk);color:var(--muted)}
+.intro{margin:0}
+.texto{margin:0;padding:4px 0 4px 16px;border-left:3px solid var(--sun);text-indent:1.5em}
+.texto p{margin:0 0 6px}
+.fonte{margin:0;text-align:right;font-size:13px;color:var(--muted)}
+figure{margin:0;display:grid;gap:6px;justify-items:center}
+figure img{display:block;max-width:100%;width:520px;height:auto;border-radius:4px;border:1px solid var(--line)}
+figcaption{font-size:14px;color:var(--muted);max-width:520px;text-align:left;width:100%}
+.stem{margin:0}
+.stem .val{font-size:13px;color:var(--muted);white-space:nowrap}
+.opts{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--line);border-radius:10px;cursor:pointer;background:var(--surface)}
+.opt:hover{border-color:var(--primary)}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.letter{flex:none;width:30px;height:28px;border-radius:14px;border:2px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:15px}
+.opt:has(input:checked){border-color:var(--primary);background:var(--primary-soft)}
+.opt:has(input:checked) .letter{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.opt:has(input:focus-visible){outline:3px solid var(--sun)}
+.opt.is-correct{border-color:var(--ok);background:var(--easy-soft)}
+.opt.is-correct .letter{border-color:var(--ok);color:var(--ok)}
+.opt.is-wrong{border-color:var(--bad);background:var(--hard-soft)}
+.done .opt{cursor:default}
+textarea{font:inherit;width:100%;min-height:96px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);resize:vertical;
+  background-image:repeating-linear-gradient(transparent 0 30px,var(--line) 30px 31px);background-attachment:local;line-height:31px}
+.expected{border-left:4px solid var(--primary);background:var(--primary-soft);border-radius:0 8px 8px 0;padding:8px 12px;font-size:15px}
+.expected b{color:var(--primary)}
+.grade{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px;color:var(--muted)}
+.grade button{font:inherit;font-size:14px;font-weight:700;border-radius:999px;padding:4px 12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.grade button[aria-pressed="true"][data-v="1"]{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.grade button[aria-pressed="true"][data-v="0.5"]{background:var(--mid);border-color:var(--mid);color:var(--surface)}
+.grade button[aria-pressed="true"][data-v="0"]{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.feedback{font-size:14px;font-weight:700}
+.feedback.ok{color:var(--ok)} .feedback.bad{color:var(--bad)}
+.finish{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.primary{background:var(--primary)!important;border-color:var(--primary)!important;color:var(--primary-ink)!important}
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.score div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.score b{display:block;font-family:var(--display);font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.score span{font-size:13px;color:var(--muted)}
+.key{overflow-x:auto}
+.key table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;background:var(--surface)}
+.key th,.key td{border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:15px;vertical-align:top}
+.key th{background:var(--sunk);font-size:13px}
+.key .ans{font-family:var(--display);font-weight:800;font-size:18px;color:var(--primary);text-align:center;width:48px}
+.dist{display:flex;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.dist span{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:2px 10px}
+.note{font-size:14px;color:var(--muted);margin:0}
+@media print{
+  body{background:#fff;color:#000;font-size:12pt;padding:0}
+  .tabs,.finish,.tool,.no-print,.grade{display:none!important}
+  .q,.cover{border:none;box-shadow:none!important;padding:8px 0}
+  .opt{border:none;padding:1px 0}
+  .opt.is-correct,.opt.is-wrong,.opt:has(input:checked){background:none}
+  .letter{border:none;width:auto;height:auto}
+  textarea{border:none;min-height:110px;background-image:repeating-linear-gradient(transparent 0 30px,#777 30px 31px)}
+  figure img{filter:grayscale(1);width:380px}
+  .pagebreak{break-before:page}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="cover">
+    <span class="sub">Ensino Fundamental · 3º bimestre</span>
+    <h1>Simulado de Geografia</h1>
+    <div class="sheet">
+      <label class="c4 wide" for="aluno">Aluno(a)<input id="aluno" type="text" autocomplete="off"></label>
+      <div class="c2">Série<span>3º ano</span></div>
+      <div class="c2">Disciplina<span>Geografia</span></div>
+      <label class="c2" for="prof">Professor(a)<input id="prof" type="text" autocomplete="off"></label>
+      <label class="c2" for="data">Data<input id="data" type="text" autocomplete="off" placeholder="__/__"></label>
+      <div class="c3 nota">Nota<span id="nota">—</span></div>
+      <div class="c3">Valor<span>10,0</span></div>
+      <div class="c6">Conteúdo<span>Usos dos recursos naturais; as atividades econômicas e os impactos ambientais no campo e na cidade (capítulos 5 e 6).</span></div>
+    </div>
+    <div class="legend">Dificuldade: <span class="chip f">Fácil</span><span class="chip m">Médio</span><span class="chip d">Difícil</span><span id="versao"></span></div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-prova" aria-selected="true">Prova</button>
+    <button role="tab" id="tab-gabarito" aria-selected="false">Gabarito</button>
+    <span class="spacer"></span>
+    <button class="tool" id="shuffle" type="button" title="Sorteia de novo a letra das respostas certas">Nova versão</button>
+    <button class="tool" id="print" type="button" hidden>Imprimir</button>
+    <button class="tool" id="save" type="button" hidden>Baixar arquivo</button>
+  </nav>
+
+  <main id="prova"></main>
+  <section id="gabarito" hidden></section>
+</div>
+
+<script id="app">
+(() => {
+const IMG = {};
+const T = { rec: "Recursos naturais", agua: "Água", rural: "Campo e ambiente", urb: "Cidade e ambiente", cons: "Conservação" };
+const D = { f: "Fácil", m: "Médio", d: "Difícil" };
+const LIVRO = "Livro de Geografia, 3º ano, volume 3 (adaptado).";
+const SIM = "Texto criado para este simulado.";
+
+const MC = [
+// ===== Recursos naturais =====
+{t:"rec",d:"f",intro:"Leia o trecho.",texto:["Recursos naturais são todos os recursos da natureza que podem ser explorados por meio do trabalho e utilizados pelos seres humanos para atender às suas necessidades."],fonte:LIVRO,
+ q:"De acordo com o texto, é um exemplo de recurso natural",
+ c:"a água.",
+ w:["o computador.","a bicicleta.","o caderno.","o prédio."]},
+{t:"rec",d:"f",q:"Os recursos que se renovam de maneira natural ou pela ação humana, como a luz solar, o ar e a água, são chamados de",
+ c:"renováveis.",
+ w:["não renováveis.","minerais energéticos.","resíduos industriais.","combustíveis fósseis."]},
+{t:"rec",d:"f",q:"Qual destes é um recurso natural <u>não renovável</u>?",
+ c:"Petróleo.",
+ w:["Luz solar.","Vento.","Água da chuva.","Vegetação."]},
+{t:"rec",d:"m",intro:"Leia o trecho.",texto:["Alguns recursos naturais, como os minérios, o petróleo e o carvão mineral, levam milhões de anos para serem renovados por processo natural. Eles não podem ser reproduzidos pela ação humana."],fonte:LIVRO,
+ q:"Esses recursos são chamados de não renováveis porque",
+ c:"levam milhões de anos para se formar e não podem ser reproduzidos pelo ser humano.",
+ w:["acabam em poucos dias.","são encontrados apenas no mar.","são produzidos nas fábricas.","renovam-se todos os anos."]},
+{t:"rec",d:"m",intro:"Leia a legenda de uma fotografia do livro.",texto:["O plantio de árvores é um exemplo de recurso natural renovável pela ação humana. Na foto, reflorestamento em Porto Seguro, Bahia."],fonte:LIVRO,
+ q:"A vegetação é um recurso renovável porque",
+ c:"pode ser plantada novamente pelos seres humanos.",
+ w:["nunca pode ser cortada.","se forma em milhões de anos.","só existe na Bahia.","é fabricada nas indústrias."]},
+{t:"rec",d:"f",q:"Do petróleo são extraídos vários produtos. Um deles é",
+ c:"a gasolina.",
+ w:["a castanha-do-pará.","a madeira.","o algodão.","o leite."]},
+{t:"rec",d:"m",intro:"Leia o trecho.",texto:["O gás liquefeito de petróleo (GLP) é bastante usado nas moradias para o preparo de alimentos."],fonte:LIVRO,
+ q:"O GLP é mais conhecido como",
+ c:"gás de cozinha.",
+ w:["gás oxigênio.","água virtual.","carvão mineral.","biodiversidade."]},
+{t:"rec",d:"d",intro:"Leia o trecho.",texto:["O petróleo é resultado da decomposição de material orgânico (animal e vegetal) soterrado há milhões de anos. As reservas localizam-se em grandes profundidades."],fonte:LIVRO,
+ q:"Por que são necessários muitos estudos e tecnologias para extrair o petróleo?",
+ c:"Porque ele fica em grandes profundidades e é preciso retirá-lo sem poluir o ambiente.",
+ w:["Porque ele está na superfície das praias.","Porque ele se renova todos os dias.","Porque ele é encontrado apenas nas cidades.","Porque ele é feito de plástico."]},
+{t:"rec",d:"m",intro:"Leia o trecho.",texto:["No Brasil, a coleta de recursos de origem vegetal, como madeira, folhas e frutos, é mais intensa no norte do país. Essa região é responsável pela produção de castanha-do-pará, látex e babaçu."],fonte:LIVRO,
+ q:"A castanha-do-pará vem de uma árvore típica da",
+ c:"Floresta Amazônica.",
+ w:["Mata Atlântica do Sul.","região do deserto.","plantação de café.","praia do Rio de Janeiro."]},
+{t:"rec",d:"d",q:"O carvão mineral foi formado há cerca de 340 milhões de anos. Hoje, ele é usado principalmente",
+ c:"em siderúrgicas e usinas termoelétricas, para produzir energia.",
+ w:["para fazer papel.","como alimento para os animais.","para regar plantações.","para construir ocas."]},
+{t:"rec",d:"f",intro:"Na história em quadrinhos do livro, Cebolinha descobre que o papel é feito com árvores plantadas em fazendas.",
+ q:"O papel é produzido a partir de um recurso natural",
+ c:"renovável.",
+ w:["não renovável.","mineral.","energético.","que nunca acaba sem cuidado."]},
+{t:"rec",d:"m",intro:"No final da história, Cebolinha usa os dois lados do papel e depois leva tudo para o lixo reciclável.",
+ q:"A atitude de Cebolinha é importante porque",
+ c:"ajuda a economizar recursos naturais e a diminuir o lixo.",
+ w:["faz as árvores crescerem mais rápido.","aumenta o desmatamento.","gasta mais papel.","deixa a escola mais suja."]},
+{t:"rec",d:"m",intro:"Observe a lista de materiais usados em uma construção.",texto:["Cimento e vigas de ferro sendo usados na construção de uma estação de metrô em Salvador, Bahia."],fonte:LIVRO,
+ q:"O ferro e o calcário (usado no cimento) são recursos",
+ c:"minerais.",
+ w:["vegetais.","animais.","hídricos.","renováveis pela ação humana."]},
+
+// ===== Água =====
+{t:"agua",d:"f",q:"A água é importante porque",
+ c:"é essencial para a sobrevivência de todos os seres vivos.",
+ w:["serve apenas para lavar carros.","só é usada nas cidades.","não é usada pelas indústrias.","nunca pode acabar, mesmo com desperdício."]},
+{t:"agua",d:"f",intro:"Leia a legenda.",texto:["O banheiro é o cômodo responsável por mais da metade do consumo de água nas residências. Fique atento ao uso da descarga!"],fonte:LIVRO,
+ q:"Uma atitude que ajuda a economizar água no banheiro é",
+ c:"fechar a torneira enquanto escova os dentes.",
+ w:["tomar banhos bem demorados.","dar descarga várias vezes sem necessidade.","deixar o chuveiro ligado ao se ensaboar.","lavar o chão com mangueira todos os dias."]},
+{t:"agua",d:"m",intro:"Leia o texto.",texto:["Na escola, Mara aprendeu que devemos usar a água de modo consciente. Em casa, encontrou o pai usando a água da mangueira para varrer a calçada e a mãe ensaboando a louça com a torneira aberta."],fonte:"Baseado no texto Conscientização do uso da água, do livro.",
+ q:"Uma forma correta de limpar a calçada, sem desperdício, é",
+ c:"usar a vassoura e um balde com água de reúso.",
+ w:["usar a mangueira aberta por uma hora.","lavar a calçada todos os dias com mangueira.","deixar a torneira aberta enquanto varre.","jogar a sujeira no rio."]},
+{t:"agua",d:"m",q:"A água é usada nas cidades e no campo de muitas formas. Qual alternativa mostra <u>apenas</u> usos da água?",
+ c:"Navegação, irrigação, geração de energia e trabalho dos bombeiros.",
+ w:["Navegação, mineração de carvão e fabricação de cimento.","Queimadas, desmatamento e irrigação.","Escapamento de carros e navegação.","Fabricação de plástico e extração de petróleo apenas."]},
+{t:"agua",d:"f",intro:"Leia o trecho.",texto:["No Brasil, mais da metade da energia elétrica é gerada pela água."],fonte:LIVRO,
+ q:"As usinas que geram energia elétrica com a força da água são chamadas de",
+ c:"usinas hidrelétricas.",
+ w:["usinas termoelétricas.","refinarias.","siderúrgicas.","estações de tratamento de esgoto."]},
+{t:"agua",d:"d",q:"A usina hidrelétrica é considerada uma fonte de energia limpa, mas sua construção pode causar",
+ c:"alagamentos, desmatamento e deslocamento de animais e pessoas.",
+ w:["poluição do ar por fumaça de escapamentos.","a formação de petróleo.","o aumento das florestas.","a falta de chuva em todo o país."]},
+{t:"agua",d:"m",q:"As usinas hidrelétricas são construídas perto dos rios porque",
+ c:"precisam da força das águas para funcionar.",
+ w:["os rios têm muito petróleo.","perto dos rios não há árvores.","precisam de fumaça para funcionar.","os rios ficam sempre nas cidades."]},
+{t:"agua",d:"d",intro:"Leia as etapas do tratamento de esgoto, fora de ordem.",texto:["• Depois do tratamento, a água limpa é devolvida aos rios e mares.","• A água usada nas casas vira esgoto e vai para a rede coletora.","• O esgoto passa por grades e por uma caixa de areia."],fonte:LIVRO,
+ q:"A <u>primeira</u> etapa do caminho do esgoto é",
+ c:"a água usada nas casas virar esgoto e ir para a rede coletora.",
+ w:["a água limpa ser devolvida aos rios.","o esgoto passar pelo decantador secundário.","a água de reúso ser usada para regar jardins.","o lodo ir para o fundo do tanque."]},
+{t:"agua",d:"m",q:"A água de reúso, que sai da estação de tratamento de esgoto, pode ser usada para",
+ c:"limpar ruas e praças e regar jardins.",
+ w:["beber sem nenhum cuidado.","preparar a comida.","encher piscinas para crianças.","fazer gelo para sucos."]},
+{t:"agua",d:"f",q:"Saneamento básico inclui",
+ c:"água tratada, coleta e tratamento de esgoto.",
+ w:["construção de shoppings.","plantação de soja.","extração de petróleo.","fabricação de automóveis."]},
+{t:"agua",d:"d",intro:"Observe a descrição de uma charge do livro: em um quadrinho, um homem sente falta de água em um lugar seco; no outro, uma pessoa lava a calçada com a mangueira.",
+ q:"A charge mostra que",
+ c:"a água não se distribui igualmente pelo planeta, e por isso não deve ser desperdiçada.",
+ w:["todos os lugares têm a mesma quantidade de água.","a água nunca falta em lugar nenhum.","lavar calçada com mangueira é a melhor forma de usar água.","a água só existe nas cidades."]},
+
+// ===== Campo e ambiente =====
+{t:"rural",d:"f",q:"No campo, são desenvolvidas atividades como",
+ c:"produção de alimentos, criação de animais e extração de minerais.",
+ w:["fabricação de automóveis e metrô.","construção de prédios muito altos.","venda em shoppings.","transporte por metrô."]},
+{t:"rural",d:"m",intro:"Leia o trecho.",texto:["Queimada é o nome dado ao uso do fogo de maneira controlada, com o objetivo de limpar um terreno e prepará-lo para o cultivo agrícola ou pastagem de gado."],fonte:LIVRO,
+ q:"Quando usadas com frequência, as queimadas podem causar",
+ c:"desgaste do solo, poluição do ar e desaparecimento de espécies.",
+ w:["aumento das florestas.","mais água nos rios.","ar mais limpo.","mais animais na região."]},
+{t:"rural",d:"m",q:"Biodiversidade é",
+ c:"a diversidade de seres vivos na natureza.",
+ w:["o nome de um tipo de agrotóxico.","a quantidade de prédios de uma cidade.","um recurso mineral.","a água usada nas fábricas."]},
+{t:"rural",d:"m",intro:"Leia o trecho.",texto:["Para diminuir a quantidade de insetos, doenças e plantas daninhas, muitos agricultores utilizam agrotóxicos em suas lavouras."],fonte:LIVRO,
+ q:"Quando usados em excesso e de maneira descuidada, os agrotóxicos podem",
+ c:"poluir o ar, o solo e os rios e contaminar os alimentos.",
+ w:["deixar os alimentos mais saudáveis.","limpar a água dos rios.","aumentar a biodiversidade.","proteger a saúde das pessoas."]},
+{t:"rural",d:"d",intro:"Leia o trecho.",texto:["Em 2015, o rompimento da barragem de Mariana, em Minas Gerais, causou uma avalanche de lama tóxica que soterrou pessoas, animais, plantas e rios. Em 2019, outra barragem rompeu-se em Brumadinho, também em Minas Gerais."],fonte:LIVRO,
+ q:"As barragens de Mariana e Brumadinho estavam ligadas a qual atividade econômica?",
+ c:"Mineração.",
+ w:["Pesca.","Turismo.","Produção de papel.","Criação de gado."]},
+{t:"rural",d:"f",intro:"Na charge do livro, os animais estão tristes olhando a floresta pegar fogo.",
+ q:"Os animais ficam tristes porque a floresta",
+ c:"serve de abrigo e fonte de alimento para eles.",
+ w:["fica mais bonita com o fogo.","não tem importância para eles.","vai virar uma cidade maior.","vai ter mais água depois do fogo."]},
+{t:"rural",d:"d",q:"Qual das afirmações sobre as queimadas e os incêndios florestais é <u>falsa</u>?",
+ c:"A biodiversidade não é prejudicada pelas queimadas e incêndios.",
+ w:["As queimadas podem prejudicar a qualidade do ar.","Há risco de extinção de animais e plantas nos incêndios.","As queimadas podem fugir do controle.","As queimadas desgastam o solo."]},
+{t:"rural",d:"m",q:"A extração de minerais, como ferro e carvão, é uma atividade",
+ c:"extrativista mineral.",
+ w:["extrativista vegetal.","extrativista animal.","de agricultura familiar.","de pecuária."]},
+
+{t:"rural",d:"f",intro:"Leia a legenda de uma fotografia do livro.",texto:["Irrigação por aspersão em plantação de batatas em Águas da Prata, São Paulo, 2016."],fonte:LIVRO,
+ q:"Na fotografia, a água é um recurso natural usado para",
+ c:"irrigar a plantação, isto é, levar água ao cultivo.",
+ w:["gerar energia elétrica.","transportar pessoas.","apagar incêndios.","fabricar automóveis."]},
+{t:"rural",d:"d",q:"Qual atitude no campo ajuda a diminuir os impactos ambientais?",
+ c:"Usar agrotóxicos somente dentro das regras e preservar a mata ciliar.",
+ w:["Fazer queimadas todos os anos.","Desmatar as margens dos rios.","Jogar restos de agrotóxicos no rio.","Aumentar o uso de agrotóxicos."]},
+// ===== Cidade e ambiente =====
+{t:"urb",d:"f",q:"As grandes cidades concentram muitos impactos ambientais porque",
+ c:"têm muitas pessoas e muitas atividades econômicas no mesmo lugar.",
+ w:["não têm nenhuma indústria.","têm mais florestas do que o campo.","não usam água.","não têm carros."]},
+{t:"urb",d:"m",intro:"Leia o trecho.",texto:["São necessários muitos litros de água para a produção de qualquer alimento ou produto que consumimos. Essa água consumida que não vemos é chamada de “água virtual”."],fonte:LIVRO,
+ q:"Um exemplo de consumo de água virtual é",
+ c:"a água usada para fabricar uma calça jeans.",
+ w:["a água que bebemos no copo.","a água do banho.","a água da chuva que cai no quintal.","a água da piscina."]},
+{t:"urb",d:"d",intro:"Observe os dados do livro sobre a água usada na produção.",texto:["Folha de papel A4: 10 litros","Barra de chocolate: 1 700 litros","Calça jeans: 10 000 litros","Automóvel: 400 000 litros"],fonte:LIVRO,
+ q:"Qual produto precisa de <u>mais</u> água para ser fabricado?",
+ c:"O automóvel.",
+ w:["A folha de papel.","A barra de chocolate.","A calça jeans.","Todos usam a mesma quantidade."]},
+{t:"urb",d:"m",q:"As águas que saem das fábricas misturadas com produtos químicos são chamadas de resíduos industriais. Antes de voltar aos rios, elas precisam",
+ c:"passar por tratamento adequado.",
+ w:["ser jogadas direto no mar.","ser usadas para beber.","ser misturadas com petróleo.","ficar paradas nas ruas."]},
+{t:"urb",d:"f",q:"A poluição do ar nas cidades é causada principalmente por",
+ c:"fumaça das indústrias e dos escapamentos dos automóveis.",
+ w:["árvores das praças.","chuva forte.","plantação de hortas.","bicicletas."]},
+{t:"urb",d:"m",q:"A poluição do ar pode causar nos seres humanos",
+ c:"doenças respiratórias e de pele.",
+ w:["mais saúde nos pulmões.","crescimento mais rápido.","melhora na visão.","fome de chocolate."]},
+{t:"urb",d:"m",intro:"Leia o trecho.",texto:["Geralmente, o solo das encostas é protegido do impacto das chuvas pela vegetação. Quando há desmatamento ou construção nessas áreas, a água infiltra no solo, deixando-o encharcado."],fonte:LIVRO,
+ q:"O desmatamento e as construções nas encostas podem causar",
+ c:"deslizamentos e desabamentos.",
+ w:["mais sombra e frutas.","aumento de peixes nos rios.","ar mais puro.","proteção contra as chuvas."]},
+{t:"urb",d:"f",q:"Encostas são",
+ c:"os lados de uma montanha.",
+ w:["o fundo de um rio.","as calçadas das cidades.","as plantações de soja.","as margens do mar."]},
+{t:"urb",d:"d",intro:"Uma fotografia do livro mostra o Rio Faria-Timbó, no Rio de Janeiro, com lixo, esgoto, casas muito perto da margem e sem vegetação.",
+ q:"Um problema ambiental que <u>NÃO</u> aparece nessa descrição é",
+ c:"a queimada em uma plantação.",
+ w:["a poluição da água com esgoto.","o lixo lançado no rio.","a falta de vegetação na margem do rio.","as construções irregulares perto da margem."]},
+{t:"urb",d:"m",q:"Relacione a causa à consequência. Qual par está correto?",
+ c:"Descarte incorreto de lixo → acúmulo de lixo na água.",
+ w:["Mineração → poluição do ar por escapamentos.","Escapamento de carros → deslizamento de encostas.","Desmatamento de encostas → lixo no mar.","Descarte de lixo → produção de energia."]},
+
+// ===== Conservação =====
+{t:"cons",d:"f",q:"Qual ação contribui para a conservação do ambiente?",
+ c:"Plantio de árvores.",
+ w:["Corte de árvores.","Queimadas frequentes.","Lixo jogado no rio.","Esgoto sem tratamento."]},
+{t:"cons",d:"m",intro:"Leia o trecho.",texto:["Mata ciliar é a vegetação original localizada nas margens dos rios. Ela atua como uma barreira protetora dos cursos de água."],fonte:LIVRO,
+ q:"Quando a mata ciliar é retirada,",
+ c:"o rio fica desprotegido e o solo das margens pode ser levado para dentro dele.",
+ w:["o rio fica mais limpo.","aparecem mais peixes.","a água do rio aumenta de qualidade.","nada acontece com o rio."]},
+{t:"cons",d:"m",q:"Erosão do solo acontece quando",
+ c:"o solo é carregado pela água da chuva ou pelo vento.",
+ w:["as árvores seguram o solo no lugar.","plantamos alpiste na caixa.","o sol ilumina a plantação.","os animais se abrigam nas árvores."]},
+{t:"cons",d:"d",intro:"No teste antideslizamento do livro, planta-se alpiste em apenas um dos lados de uma caixa com terra. Depois, simula-se uma chuva forte nos dois lados.",
+ q:"O resultado esperado do experimento é que",
+ c:"o lado sem plantas perca mais terra, pois as raízes ajudam a segurar o solo.",
+ w:["o lado com plantas perca mais terra.","os dois lados fiquem iguais.","a terra desapareça dos dois lados.","o alpiste impeça a chuva de cair."]},
+{t:"cons",d:"f",q:"As árvores ajudam a manter a qualidade do ar porque",
+ c:"absorvem o gás carbônico da atmosfera.",
+ w:["soltam fumaça.","produzem petróleo.","consomem muita água virtual.","poluem os rios."]},
+{t:"cons",d:"m",intro:"A ONU propôs metas para garantir água e saneamento a todas as pessoas.",
+ q:"Uma dessas metas é",
+ c:"proteger e restaurar montanhas, florestas, rios e lagos.",
+ w:["aumentar o uso de agrotóxicos.","fazer mais queimadas.","construir casas nas encostas.","jogar esgoto nos rios."]}
+];
+
+const DS = [
+{t:"rec",d:"f",q:"O que são recursos naturais? Dê dois exemplos.",
+ r:"São elementos da natureza explorados pelo trabalho e usados pelos seres humanos para atender às suas necessidades. Exemplos: luz solar, ar, água, vegetação, solo, minerais."},
+{t:"rec",d:"m",q:"Qual é a diferença entre recursos renováveis e não renováveis? Dê um exemplo de cada.",
+ r:"Renováveis se renovam naturalmente ou pela ação humana (água, vegetação, luz solar). Não renováveis levam milhões de anos para se formar e não podem ser reproduzidos pelo ser humano (petróleo, minérios, carvão mineral)."},
+{t:"rec",d:"m",q:"Cite três produtos derivados do petróleo.",
+ r:"Gasolina, querosene, óleo diesel, gás de cozinha (GLP), plásticos, fios de nylon, asfalto, borracha sintética, tintas, cosméticos, fertilizantes (três deles)."},
+{t:"rec",d:"d",q:"Escolha um recurso natural e explique como ele é usado em uma atividade econômica.",
+ r:"Resposta pessoal. Exemplos: o solo é usado para plantar alimentos; a água é usada para irrigação; a madeira é usada para fazer móveis; o ferro é usado nas construções."},
+{t:"agua",d:"f",q:"Escreva três atitudes que ajudam a evitar o desperdício de água em casa ou na escola.",
+ r:"Fechar a torneira ao escovar os dentes, tomar banhos curtos, usar balde em vez de mangueira, reaproveitar a água da chuva, consertar vazamentos (três deles)."},
+{t:"agua",d:"m",q:"Cite três formas de usar a água nas atividades humanas.",
+ r:"Abastecer residências, irrigação, indústria, geração de energia, navegação, turismo e lazer, esportes, trabalho dos bombeiros (três deles)."},
+{t:"agua",d:"d",q:"Por que a usina hidrelétrica é chamada de energia limpa, mas também pode causar impactos ambientais?",
+ r:"É limpa porque não gera poluição ao produzir energia. Mas sua construção pode causar desmatamento, alagamentos, deslocamento de animais e pessoas e mudança no curso dos rios."},
+{t:"agua",d:"m",q:"Escreva duas atitudes que ajudam a economizar energia elétrica.",
+ r:"Diminuir o tempo do banho quente, tirar aparelhos da tomada, aproveitar a luz e a ventilação naturais, apagar as luzes ao sair (duas delas)."},
+{t:"agua",d:"d",q:"Por que o tratamento de esgoto é importante para a saúde e para o ambiente?",
+ r:"Porque evita que a sujeira e as doenças cheguem aos rios e mares, protege os seres vivos e permite devolver água limpa à natureza ou reaproveitá-la."},
+{t:"rural",d:"f",q:"Cite dois impactos ambientais causados por atividades econômicas no campo.",
+ r:"Poluição do ar, do solo e da água; redução da biodiversidade; queimadas; uso excessivo de agrotóxicos; impactos da mineração (dois deles)."},
+{t:"rural",d:"m",q:"O uso excessivo de agrotóxicos pode causar danos à saúde humana? Justifique.",
+ r:"Sim. Os agrotóxicos podem poluir o ar, o solo e os rios e contaminar os alimentos que comemos, fazendo mal à saúde."},
+{t:"rural",d:"d",q:"O que aconteceu em Mariana (2015) e Brumadinho (2019)? Que prejuízos isso causou?",
+ r:"Barragens de mineração romperam-se em Minas Gerais. A lama tóxica soterrou pessoas, animais, plantas e rios, causando uma tragédia social e ambiental."},
+{t:"urb",d:"m",q:"O que é “água virtual”? Dê um exemplo.",
+ r:"É a água usada na produção de alimentos e produtos, que não vemos quando consumimos. Exemplos: a água usada para fazer um caderno, uma calça jeans, um chocolate ou um carro."},
+{t:"urb",d:"m",q:"Cite duas causas da poluição do ar nas cidades e uma consequência para a saúde.",
+ r:"Causas: fumaça das indústrias e escapamentos dos automóveis. Consequência: doenças respiratórias e de pele."},
+{t:"urb",d:"d",q:"Por que construir casas nas encostas dos morros pode ser perigoso?",
+ r:"Porque sem vegetação a água da chuva encharca o solo, o que pode causar deslizamentos e desabamentos, colocando a vida das pessoas em risco."},
+{t:"urb",d:"d",q:"Como a poluição de um rio pode prejudicar as atividades econômicas de uma cidade?",
+ r:"A água fica imprópria ou escassa para as indústrias, para o abastecimento, para a pesca, o turismo e o lazer."},
+{t:"urb",d:"m",q:"O que poderia ser feito para evitar a poluição dos rios nas cidades?",
+ r:"Ampliar o saneamento básico, tratar o esgoto e os resíduos industriais, não jogar lixo nos rios, preservar a mata ciliar."},
+{t:"cons",d:"f",q:"Escreva três motivos para plantar e preservar árvores.",
+ r:"Ar puro para respirar, abrigo para os animais, proteção do solo, frutas e sementes, sombra (três deles)."},
+{t:"cons",d:"m",q:"O que é mata ciliar e por que ela é importante?",
+ r:"É a vegetação original nas margens dos rios. Ela protege os rios, segura o solo e evita que a terra e a sujeira sejam levadas para a água."},
+{t:"cons",d:"d",q:"No município onde você mora, existe algum problema ambiental? Qual? O que poderia ser feito para resolvê-lo?",
+ r:"Resposta pessoal. Espera-se que a criança cite um problema real (lixo, poluição, desmatamento, enchente) e proponha uma solução coerente."}
+];
+
+/* ---------- sorteio das letras: 10 respostas em cada letra ---------- */
+const LET = ["a","b","c","d","e"];
+function rng(seed){ let s = seed >>> 0; return () => { s = (s + 0x6D2B79F5) >>> 0; let t = s; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function shuffle(a, r){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function build(seed){
+  const r = rng(seed);
+  const slots = shuffle([...Array(MC.length)].map((_, i) => i % 5), r);
+  return MC.map((q, i) => { const opts = shuffle([...q.w], r); opts.splice(slots[i], 0, q.c); return { ...q, opts, ans: slots[i] }; });
+}
+
+const store = {
+  get(k){ try { return JSON.parse(localStorage.getItem("simgeo3:" + k)); } catch { return null; } },
+  set(k, v){ try { localStorage.setItem("simgeo3:" + k, JSON.stringify(v)); } catch {} }
+};
+let seed = store.get("seed") || 3052;
+let answers = store.get("answers") || {};
+let texts = store.get("texts") || {};
+let marks = store.get("marks") || {};
+let finished = store.get("finished") || false;
+let quiz = build(seed);
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad = n => String(n).padStart(2, "0");
+const fmt = x => x.toFixed(1).replace(".", ",");
+
+function context(q){
+  let h = "";
+  if (q.intro) h += `<p class="intro">${esc(q.intro)}</p>`;
+  if (q.img && IMG[q.img]) h += `<figure><img src="${IMG[q.img]}" alt="${esc(q.leg || "")}" loading="lazy"><figcaption>${esc(q.leg || "")}</figcaption></figure>`;
+  if (q.texto) h += `<blockquote class="texto">${q.texto.map(p => `<p>${esc(p)}</p>`).join("")}</blockquote>${q.fonte ? `<p class="fonte">${esc(q.fonte)}</p>` : ""}`;
+  return h;
+}
+const head = (n, q) => `<div class="qhead"><span class="qn">QUESTÃO ${pad(n)}</span><span class="chip ${q.d}">${D[q.d]}</span><span class="chip t">${T[q.t]}</span></div>`;
+
+function scores(){
+  const mc = quiz.filter((q, i) => answers[i + 1] === q.ans).length;
+  const ds = Object.values(marks).reduce((s, v) => s + v, 0);
+  const graded = Object.keys(marks).length;
+  return { mc, ds, graded, nota: (mc + ds) / (MC.length + DS.length) * 10 };
+}
+
+function renderProva(){
+  let html = `<div class="section-title"><span class="num">1</span><h2>Múltipla escolha</h2></div>
+    <p class="note">Leia com atenção e marque apenas uma alternativa em cada questão.</p><div class="stack">`;
+  quiz.forEach((q, i) => {
+    const n = i + 1, picked = answers[n];
+    const cls = "q" + (finished ? (picked === q.ans ? " right" : " wrong") + " done" : "");
+    html += `<article class="${cls}" id="q${n}">${head(n, q)}${context(q)}
+      <p class="stem">${q.q}</p>
+      <ul class="opts">${q.opts.map((o, k) => {
+        let oc = "opt";
+        if (finished && k === q.ans) oc += " is-correct"; else if (finished && k === picked) oc += " is-wrong";
+        return `<li><label class="${oc}"><input type="radio" name="m${n}" value="${k}" ${picked === k ? "checked" : ""} ${finished ? "disabled" : ""}><span class="letter">${LET[k]})</span><span>${esc(o)}</span></label></li>`;
+      }).join("")}</ul>
+      ${finished ? `<div class="feedback ${picked === q.ans ? "ok" : "bad"}">${picked === q.ans ? "Correto!" : picked == null ? `Sem resposta. A certa é a letra ${LET[q.ans]}.` : `A resposta certa é a letra ${LET[q.ans]}.`}</div>` : ""}
+    </article>`;
+  });
+  html += `</div><div class="section-title pagebreak"><span class="num">2</span><h2>Questões para responder</h2></div>
+    <p class="note">Responda com as suas palavras, usando frases completas.</p><div class="stack">`;
+  DS.forEach((q, i) => {
+    const n = MC.length + 1 + i, m = marks[n];
+    html += `<article class="q" id="q${n}">${head(n, q)}${context(q)}
+      <label class="stem" for="t${n}">${esc(q.q)}</label>
+      <textarea id="t${n}" data-n="${n}" rows="3">${esc(texts[n] || "")}</textarea>
+      ${finished ? `<div class="expected"><b>Resposta esperada:</b> ${esc(q.r)}</div>
+        <div class="grade" data-n="${n}">Correção do adulto:
+          <button type="button" data-v="1" aria-pressed="${m === 1}">Certa</button>
+          <button type="button" data-v="0.5" aria-pressed="${m === 0.5}">Metade</button>
+          <button type="button" data-v="0" aria-pressed="${m === 0}">Errada</button></div>` : ""}
+    </article>`;
+  });
+  html += `</div>`;
+  if (finished){
+    const s = scores();
+    html += `<div class="score" style="margin-top:18px">
+      <div><b>${fmt(s.nota)}</b><span>nota de 0 a 10</span></div>
+      <div><b>${s.mc}/${MC.length}</b><span>acertos na múltipla escolha</span></div>
+      ${["f","m","d"].map(k => { const all = quiz.filter(q => q.d === k); const ok = all.filter(q => answers[quiz.indexOf(q) + 1] === q.ans).length; return `<div><b>${ok}/${all.length}</b><span>${D[k].toLowerCase()}s certas</span></div>`; }).join("")}
+      <div><b>${fmt(s.ds)}/${DS.length}</b><span>questões escritas (${s.graded} de ${DS.length} corrigidas)</span></div>
+    </div>
+    <div class="finish no-print" style="margin-top:12px"><span>Corrija as questões ${MC.length + 1} a ${MC.length + DS.length} com os botões Certa, Metade ou Errada. A nota é atualizada na hora.</span><button type="button" class="tool" id="reset">Fazer de novo</button></div>`;
+  } else {
+    html += `<div class="finish no-print" style="margin-top:18px"><span><b id="count">${Object.keys(answers).length}</b> de ${MC.length} questões de múltipla escolha respondidas</span><button type="button" class="tool primary" id="finish">Finalizar e corrigir</button></div>`;
+  }
+  $("#prova").innerHTML = html;
+  $("#nota").textContent = finished ? fmt(scores().nota) : "—";
+}
+
+function renderGabarito(){
+  const by = [0,0,0,0,0]; quiz.forEach(q => by[q.ans]++);
+  let html = `<div class="section-title"><span class="num">✓</span><h2>Gabarito · versão ${seed}</h2></div>
+    <p class="note">Para o responsável. Cada nova versão sorteia de novo a letra das respostas, e o gabarito acompanha.</p>
+    <div class="dist">${LET.map((l, i) => `<span>${l}) ${by[i]} respostas</span>`).join("")}</div>
+    <div class="key"><table><thead><tr><th>Questão</th><th>Letra</th><th>Resposta</th><th>Nível</th></tr></thead><tbody>`;
+  quiz.forEach((q, i) => { html += `<tr><td>${pad(i + 1)}</td><td class="ans">${LET[q.ans]}</td><td>${esc(q.c)}</td><td><span class="chip ${q.d}">${D[q.d]}</span></td></tr>`; });
+  html += `</tbody></table></div><h3 style="margin-top:18px">Questões para responder</h3>
+    <div class="key"><table><thead><tr><th>Questão</th><th>Resposta esperada</th><th>Nível</th></tr></thead><tbody>`;
+  DS.forEach((q, i) => { html += `<tr><td>${MC.length + 1 + i}</td><td>${esc(q.r)}</td><td><span class="chip ${q.d}">${D[q.d]}</span></td></tr>`; });
+  $("#gabarito").innerHTML = html + `</tbody></table></div>`;
+}
+function render(){ renderProva(); renderGabarito(); $("#versao").textContent = `· Versão ${seed}`; }
+
+document.addEventListener("change", e => {
+  const el = e.target;
+  if (el.type === "radio" && el.name.startsWith("m")){
+    answers[+el.name.slice(1)] = +el.value; store.set("answers", answers);
+    const c = $("#count"); if (c) c.textContent = Object.keys(answers).length;
+  }
+});
+document.addEventListener("input", e => {
+  if (e.target.matches("textarea[data-n]")){ texts[e.target.dataset.n] = e.target.value; store.set("texts", texts); }
+  if (e.target.matches(".sheet input")) store.set("f:" + e.target.id, e.target.value);
+});
+["aluno","prof","data"].forEach(id => { const v = store.get("f:" + id); if (v) $("#" + id).value = v; });
+
+document.addEventListener("click", e => {
+  const t = e.target;
+  if (t.id === "finish"){ finished = true; store.set("finished", true); renderProva(); $("#prova").scrollIntoView({ behavior: "smooth" }); }
+  if (t.id === "reset"){
+    answers = {}; texts = {}; marks = {}; finished = false;
+    ["answers","texts","marks"].forEach(k => store.set(k, {})); store.set("finished", false);
+    renderProva(); window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  const g = t.closest(".grade button");
+  if (g){
+    const n = g.parentElement.dataset.n, v = +g.dataset.v;
+    marks[n] = v; store.set("marks", marks);
+    const y = window.scrollY; renderProva(); window.scrollTo(0, y);
+  }
+});
+
+function tab(which){
+  const g = which === "gabarito";
+  $("#prova").hidden = g; $("#gabarito").hidden = !g;
+  $("#tab-prova").setAttribute("aria-selected", String(!g));
+  $("#tab-gabarito").setAttribute("aria-selected", String(g));
+}
+$("#tab-prova").addEventListener("click", () => tab("prova"));
+$("#tab-gabarito").addEventListener("click", () => tab("gabarito"));
+
+$("#shuffle").addEventListener("click", () => {
+  seed = 1000 + Math.floor(Math.random() * 9000);
+  answers = {}; marks = {}; finished = false;
+  store.set("seed", seed); store.set("answers", answers); store.set("marks", marks); store.set("finished", false);
+  quiz = build(seed); render();
+});
+
+// Imprimir só funciona com o arquivo aberto direto no navegador
+if (!window.claude){ const p = $("#print"); p.hidden = false; p.addEventListener("click", () => window.print()); }
+
+// Dentro do Claude: salvar este mesmo arquivo para abrir em qualquer lugar
+const SOURCE = (() => {
+  const doc = document.documentElement.cloneNode(true);
+  doc.querySelectorAll("script:not(#app), meta[http-equiv]").forEach(n => n.remove());
+  doc.querySelector("#prova").innerHTML = ""; doc.querySelector("#gabarito").innerHTML = "";
+  return "<!doctype html>\n" + doc.outerHTML;
+})();
+if (window.claude?.use){
+  claude.use("downloads").then(dl => {
+    if (!dl) return;
+    const b = $("#save"); b.hidden = false;
+    b.addEventListener("click", () => dl.save({ filename: "simulado-geografia-3ano.html", data: SOURCE }).catch(() => {}));
+  }).catch(() => {});
+}
+
+render();
+})();
+</script>
+</body>
+</html>
