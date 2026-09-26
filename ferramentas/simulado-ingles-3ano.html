@@ -231,13 +231,13 @@ const SECTIONS = [
  {d:"m", img:"pl_boardgame", text:"Can she play a board game?", c:"Yes, she can.", w:["No, she can't.","Yes, he can.","Yes, I am."]},
  {d:"d", img:"club_music", text:"Would you like to join my music club?", c:"Yes, of course!", w:["Yes, I am.","No, I'm not.","Yes, he can."]}
 ]},
-{title:"Find the one that doesn't belong. Then listen to the sounds.", kind:"odd", items:[
+{title:"Listen and read. Find the one that doesn't belong.", audio:true, kind:"odd", items:[
  {d:"f", text:"Which word doesn't belong?", c:"juice", w:["burger","orange","fish"]},
  {d:"f", text:"Which word doesn't belong?", c:"piano", w:["swim","climb","kick"]},
  {d:"m", text:"Which word doesn't belong?", c:"carrot", w:["drums","violin","recorder"]},
  {d:"m", text:"Which word doesn't belong?", c:"cookie", w:["sheep","goose","donkey"]},
- {d:"d", text:"Which word has the same sound as <b>play</b>?", sayw:true, c:"day", w:["bike","climb","fish"]},
- {d:"d", text:"Which word has the same sound as <b>fish</b>?", sayw:true, c:"dish", w:["pot","play","bike"]}
+ {d:"d", text:"Which word has the same sound as <b>play</b>?", sayw:true, base:"play", c:"day", w:["bike","climb","fish"]},
+ {d:"d", text:"Which word has the same sound as <b>fish</b>?", sayw:true, base:"fish", c:"dish", w:["pot","play","bike"]}
 ]},
 {title:"Look and write.", kind:"write", bank:true, items:[
  {d:"f", img:"r_swing", c:"swing"},
@@ -315,7 +315,7 @@ function pickVoice(){ try { const v = speechSynthesis.getVoices(); voice = v.fin
 if (canSpeak){ pickVoice(); try { speechSynthesis.onvoiceschanged = pickVoice; } catch {} }
 function speak(text){
   if (!canSpeak) return false;
-  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; if (voice) u.voice = voice; u.rate = 0.8; speechSynthesis.speak(u); return true; } catch { return false; }
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; if (voice) u.voice = voice; u.rate = 0.8; u.onstart = () => { document.querySelectorAll(`[data-say="${CSS.escape(text)}"]`).forEach(b => b.dataset.played = "1"); }; u.onerror = () => { document.querySelectorAll(`[data-say="${CSS.escape(text)}"]`).forEach(b => { const n = b.parentElement.querySelector(".script"); if (n) n.click(); }); }; speechSynthesis.speak(u); return true; } catch { return false; }
 }
 const EAR = `<svg class="icon-ear" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>`;
 const sayBtn = (text, label = "Listen") => `<span class="row" style="gap:10px"><button type="button" class="say" data-say="${esc(text)}">${EAR}${label}</button><button type="button" class="script" data-show="${esc(text)}">ver texto (adulto)</button></span>`;
@@ -372,7 +372,7 @@ function itemHtml(it, s){
     case "pick-ans":
       h += `${img(it.img, it.img === "kitchen" ? "lg" : "md")}<p class="prompt">${esc(it.text)}</p>${optsHtml(it)}`; break;
     case "odd":
-      h += `<p class="prompt">${it.text}</p>${it.sayw ? sayBtn(it.opts.join(", "), "Listen to the words") : ""}${optsHtml(it)}`; break;
+      h += `<p class="prompt">${it.text}</p>${sayBtn((it.sayw ? it.base + "... " : "") + it.opts.join("... "), "Listen to the words")}${optsHtml(it)}`; break;
     case "write": case "answer": case "free": {
       const big = it.img === "kitchen" || it.img === "farm";
       if (it.img) h += img(it.img, big ? "lg" : it.kind === "write" && !it.text ? "sm" : "md");
@@ -396,7 +396,7 @@ function renderProva(){
     if (si === 7) h += `<div class="part pagebreak">Part 2 · Writing (5,0)</div>`;
     const per = OBJ.has(s.kind) ? PTS.obj : PTS.wr;
     h += `<section class="sec"><div class="sechead"><h2>${s.audio ? EAR : ""}${si + 1}. ${s.title}</h2><span class="val">(${fmtv(per * s.items.length)} – ${fmtv(per)})</span></div>`;
-    if (s.audio) h += `<p class="note no-print">Aperte <b>Listen</b> para ouvir. Se o som não funcionar, um adulto lê o texto em voz alta.</p><p class="note printonly">O adulto lê em voz alta o áudio de cada item (está no gabarito).</p>`;
+    if (s.audio) h += `<p class="note no-print">Aperte <b>Listen</b> para ouvir. Se o som não funcionar, o texto aparece embaixo do botão para um adulto ler em voz alta.</p><p class="note printonly">O adulto lê em voz alta o áudio de cada item (está no gabarito).</p>`;
     if (s.hint) h += `<p class="note no-print">${s.hint}</p>`;
     if (s.bank) h += `<div class="bank">${s.bankOrder.map(w => `<span>${esc(w)}</span>`).join("<span>-</span>")}</div>`;
     h += `<div class="stack">${s.items.map(it => itemHtml(it, s)).join("")}</div></section>`;
@@ -450,7 +450,9 @@ document.addEventListener("input", e => {
 document.addEventListener("click", e => {
   const t = e.target.closest("button"); if (!t) return;
   if (t.dataset.say != null){
-    if (!speak(t.dataset.say)){ const n = t.parentElement.querySelector(".script"); if (n) n.click(); }
+    const show = () => { const n = t.parentElement.querySelector(".script"); if (n) n.click(); };
+    if (!speak(t.dataset.say)) show();
+    else setTimeout(() => { try { if (!speechSynthesis.speaking && !speechSynthesis.pending && !t.dataset.played) show(); } catch { show(); } }, 1200);
     return;
   }
   if (t.dataset.show != null){ t.outerHTML = `<span class="scripttext">“${esc(t.dataset.show)}”</span>`; return; }
